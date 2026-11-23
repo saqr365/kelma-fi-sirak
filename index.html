@@ -220,43 +220,58 @@ document.querySelectorAll(".chip").forEach((chip)=>{
 
 const SpeechRecognition=window.SpeechRecognition||window.webkitSpeechRecognition;
 if(SpeechRecognition){
-  const recognition=new SpeechRecognition();
-  recognition.lang="ar-EG";
-  recognition.continuous=false;
-  recognition.interimResults=false;
+  let recognition=null;
   let isListening=false;
-
-  voiceBtn.addEventListener("click",()=>{
-    if(isListening){recognition.stop();return;}
-    hideStatus();
-    try{recognition.start();}catch(_){}
-  });
-  recognition.onstart=()=>{
-    isListening=true;
-    voiceBtn.classList.add("recording");
-    setIcon(voiceIcon,"i-stop");
-    voiceText.textContent="جاري الاستماع...";
+  const voiceErrors={
+    "not-allowed":"يرجى السماح بالوصول للميكروفون من إعدادات الموقع في Chrome.",
+    "service-not-allowed":"خدمة التعرف على الصوت غير متاحة على الجهاز، تأكد من تفعيل Google app وخدمات الكلام.",
+    "audio-capture":"الميكروفون مش متاح، ممكن يكون مستخدم في تطبيق تاني.",
+    "network":"التعرف على الصوت محتاج إنترنت شغال، تحقق من الاتصال.",
+    "no-speech":"ما سمعتش صوت، تكلم بعد ما تظهر كلمة «جاري الاستماع» وحاول مرة تانية.",
+    "language-not-supported":"اللغة العربية المصرية مش مدعومة على الجهاز."
   };
-  recognition.onresult=(event)=>{
-    const transcript=event.results[0][0].transcript.trim();
-    if(!transcript)return;
-    const space=messageInput.value&&!messageInput.value.endsWith(" ")?" ":"";
-    messageInput.value=(messageInput.value+space+transcript).slice(0,1000);
-    updateCounter();
-  };
-  recognition.onerror=(event)=>{
-    if(event.error==="not-allowed"){
-      showStatus("error","يرجى السماح بالوصول للميكروفون لاستخدام الكتابة الصوتية.");
-    }else if(event.error!=="no-speech"&&event.error!=="aborted"){
-      showStatus("error","تعذر التعرف على الصوت، حاول مرة أخرى.");
-    }
-  };
-  recognition.onend=()=>{
+  function resetVoiceUI(){
     isListening=false;
     voiceBtn.classList.remove("recording");
     setIcon(voiceIcon,"i-mic");
     voiceText.textContent="اكتب بصوتك";
-  };
+  }
+  function startVoice(){
+    recognition=new SpeechRecognition();
+    recognition.lang="ar-EG";
+    recognition.continuous=false;
+    recognition.interimResults=false;
+    recognition.maxAlternatives=1;
+    recognition.onstart=()=>{
+      isListening=true;
+      voiceBtn.classList.add("recording");
+      setIcon(voiceIcon,"i-stop");
+      voiceText.textContent="جاري الاستماع...";
+    };
+    recognition.onresult=(event)=>{
+      const transcript=(event.results[0][0].transcript||"").trim();
+      if(!transcript)return;
+      const space=messageInput.value&&!messageInput.value.endsWith(" ")?" ":"";
+      messageInput.value=(messageInput.value+space+transcript).slice(0,1000);
+      updateCounter();
+    };
+    recognition.onerror=(event)=>{
+      if(event.error==="aborted")return;
+      showStatus("error",voiceErrors[event.error]||("تعذر التعرف على الصوت ("+event.error+")، حاول مرة أخرى."));
+    };
+    recognition.onend=resetVoiceUI;
+    try{
+      recognition.start();
+    }catch(err){
+      resetVoiceUI();
+      showStatus("error","تعذر تشغيل الميكروفون ("+((err&&err.name)||"خطأ")+")، حاول مرة أخرى.");
+    }
+  }
+  voiceBtn.addEventListener("click",()=>{
+    if(isListening&&recognition){recognition.stop();return;}
+    hideStatus();
+    startVoice();
+  });
 }else{
   voiceBtn.disabled=true;
   voiceText.textContent="الصوت غير مدعوم";
