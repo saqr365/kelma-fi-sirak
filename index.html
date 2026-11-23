@@ -141,7 +141,7 @@ button:focus-visible{box-shadow:0 0 0 2px var(--card),0 0 0 4px var(--ac)}
         <button type="button" class="chip" data-text="نصيحة من القلب ليك: "><svg class="ic"><use href="#i-star"/></svg>نصيحة</button>
       </div>
 
-      <button type="submit" class="submit-btn" id="submitBtn"><svg class="ic"><use href="#i-send"/></svg><span id="submitText">إرسال الكلمة</span></button>
+      <button type="submit" class="submit-btn" id="submitBtn"><svg class="ic"><use href="#i-send"/></svg><span id="submitText">ابعت كلمتك</span></button>
     </form>
 
     <div id="statusBox" class="status-box" role="status" aria-live="polite"></div>
@@ -285,7 +285,7 @@ form.addEventListener("submit",async(e)=>{
   if(!text){showStatus("error","اكتب رسالتك الأول قبل الإرسال.");return;}
   if(!key){showStatus("error","مفتاح الإرسال غير موجود.");return;}
   submitBtn.disabled=true;
-  submitText.textContent="جاري الإرسال...";
+  submitText.textContent="بتتبعت...";
   try{
     const formData=new FormData(form);
     formData.set("message",text);
@@ -302,7 +302,7 @@ form.addEventListener("submit",async(e)=>{
     showStatus("error","حدث خطأ في الاتصال، تحقق من الإنترنت وحاول مجددًا.");
   }finally{
     submitBtn.disabled=false;
-    submitText.textContent="إرسال الكلمة";
+    submitText.textContent="ابعت كلمتك";
   }
 });
 </script>
