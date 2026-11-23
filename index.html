@@ -34,7 +34,7 @@ transition:background-color .3s,color .3s}
 .ic{width:1.15em;height:1.15em;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;flex:none;vertical-align:-.2em}
 .wrap{width:100%;max-width:500px}
 .card{position:relative;background:var(--card);border:2px solid var(--frame);border-radius:12px;padding:30px 22px 24px;box-shadow:var(--sh);animation:rise .6s ease both;transition:background-color .3s,border-color .3s}
-.card::before{content:"";position:absolute;inset:7px;border:1px solid var(--frame);border-radius:7px;opacity:.55;pointer-events:none}
+.card::before{content:"";position:absolute;inset:17px 7px 7px;border:1px solid var(--frame);border-radius:7px;opacity:.55;pointer-events:none}
 .band{position:absolute;top:0;inset-inline:0;height:9px;border-radius:10px 10px 0 0;background:repeating-linear-gradient(90deg,#1f4e8c 0 12px,#d4a63a 12px 24px,#a3382a 24px 36px);opacity:.9}
 @keyframes rise{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
 @media (prefers-reduced-motion:reduce){.card{animation:none}*{transition:none!important}}
