@@ -128,6 +128,34 @@ button:focus-visible{box-shadow:0 0 0 2px var(--card),0 0 0 4px var(--ac)}
 .mk{display:block;text-align:center;margin-top:14px;font-size:13px;color:var(--ac)}
 #installBtn{display:flex;margin:14px auto 0}
 .h2{font-family:"Reem Kufi","Cairo",sans-serif;font-size:20px;color:var(--title);margin:18px 0 2px}
+.hd{display:flex;align-items:center;gap:11px;margin-bottom:12px}
+.hd .medal{width:44px;height:44px;margin:0}.hd .medal .ic{width:22px;height:22px}
+.hd h1{margin:0;font-size:22px;line-height:1.2}.hd small{display:block;font-size:12px;color:var(--mu)}.hd .sp{flex:1}
+.hero{background:var(--soft);border:2px solid var(--frame);border-radius:14px;padding:14px;display:flex;align-items:center;gap:12px;outline:1px solid var(--frame);outline-offset:-7px}
+.hero b{font:700 50px "Reem Kufi",Cairo,sans-serif;color:var(--title);line-height:1;padding-inline:8px}
+.hero span{display:block;font-weight:700}.hero small{display:block;color:var(--mu);font-size:12.5px}.hero .chip{margin-top:8px;border-color:var(--bd)}
+.rail{display:flex;gap:6px;overflow-x:auto;padding:12px 0 8px}
+.chip i{width:9px;height:9px;border-radius:50%;background:var(--c);display:inline-block}
+.bb{position:relative;background:var(--soft);border:1px solid var(--bd);border-radius:16px 16px 16px 4px;padding:11px 13px;margin-bottom:10px;font-size:14.5px;background-image:repeating-linear-gradient(transparent 0 25px,var(--line) 25px 26px);cursor:pointer}
+.bb.new{border-color:var(--ac);box-shadow:0 0 0 3px var(--ac-s)}
+.bb.new::before{content:"";position:absolute;top:12px;inset-inline-end:10px;width:9px;height:9px;border-radius:50%;background:var(--ac)}
+.bb p{margin:0 0 6px;padding-inline-end:14px;line-height:26px;white-space:pre-wrap;word-break:break-word}
+.meta{display:flex;align-items:center;justify-content:space-between;gap:8px;font-size:12px;color:var(--mu)}
+.tag{display:inline-flex;align-items:center;gap:5px;background:var(--chip);color:var(--tx);border-radius:999px;padding:1px 10px}
+.tag i{width:8px;height:8px;border-radius:50%;background:var(--c)}
+.ib{background:none;border:0;cursor:pointer;color:var(--mu);padding:2px 4px}
+.lk{background:var(--soft);border:1px solid var(--bd);border-inline-start:7px solid var(--c);border-radius:14px;padding:12px;margin-bottom:10px}
+.row{display:flex;flex-wrap:wrap;gap:6px;align-items:center}
+.pane{padding-bottom:64px}
+.acc{text-align:center;padding-top:10px}.acc .medal{width:72px;height:72px;margin:0 auto 10px}.acc .medal .ic{width:34px;height:34px}
+.acc h2{margin:0;font:700 22px "Reem Kufi",Cairo,sans-serif;color:var(--title)}.acc p{margin:0 0 16px;color:var(--mu);font-size:13px;direction:ltr}
+.acc .chip{display:flex;justify-content:center;width:100%;padding:11px;margin-bottom:8px;font-size:14px}
+.fabw{position:sticky;bottom:72px;height:0;z-index:6}
+.fab{position:absolute;bottom:0;inset-inline-start:0;display:flex;align-items:center;gap:6px;background:var(--btn);color:var(--btn-tx);border:1px solid var(--btn-bd);border-radius:999px;padding:11px 16px;font:800 14px Cairo,sans-serif;box-shadow:0 10px 22px -8px rgba(90,55,15,.8);cursor:pointer}
+.bn{position:sticky;bottom:0;z-index:5;margin:16px -22px -24px;background:var(--card);border-top:3px solid transparent;border-image:repeating-linear-gradient(90deg,#1f4e8c 0 12px,#d4a63a 12px 24px,#a3382a 24px 36px) 3;display:flex;padding:8px 10px calc(10px + env(safe-area-inset-bottom,0px))}
+.bn button{flex:1;display:flex;flex-direction:column;align-items:center;gap:2px;background:none;border:0;font-size:11.5px;color:var(--mu);cursor:pointer;position:relative;font-family:inherit}
+.bn button.on{color:var(--ac);font-weight:700}.bn .ic{width:1.5em;height:1.5em}
+.bn .cnt2{position:absolute;top:-4px;inset-inline-start:calc(50% + 6px);margin:0}
 </style>
 </head>
 <body>
@@ -148,6 +176,10 @@ button:focus-visible{box-shadow:0 0 0 2px var(--card),0 0 0 4px var(--ac)}
   <symbol id="i-trash" viewBox="0 0 24 24"><path d="M4 7h16M10 11v6M14 11v6M6 7l1 13h10l1-13M9 7V4h6v3"/></symbol>
   <symbol id="i-refresh" viewBox="0 0 24 24"><path d="M21 12a9 9 0 1 1-3-6.7L21 8M21 3v5h-5"/></symbol>
   <symbol id="i-edit" viewBox="0 0 24 24"><path d="M4 20h4L19 9l-4-4L4 16zM14 6l4 4"/></symbol>
+  <symbol id="i-mail" viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></symbol>
+  <symbol id="i-link" viewBox="0 0 24 24"><path d="M10 14a4 4 0 0 0 5.7 0l3-3a4 4 0 0 0-5.7-5.7l-1 1M14 10a4 4 0 0 0-5.7 0l-3 3a4 4 0 0 0 5.7 5.7l1-1"/></symbol>
+  <symbol id="i-user" viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></symbol>
+  <symbol id="i-plus" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></symbol>
 </svg>
 
 <div class="wrap">
@@ -209,37 +241,35 @@ button:focus-visible{box-shadow:0 0 0 2px var(--card),0 0 0 4px var(--ac)}
 
   <main class="card view" id="vDash" hidden>
     <div class="band"></div>
-    <div class="top">
-      <span class="badge" id="who"></span>
-      <span class="tb">
-        <button type="button" class="theme-btn" id="refBtn" aria-label="تحديث"><svg class="ic"><use href="#i-refresh"/></svg></button>
-        <button type="button" class="theme-btn" id="outBtn" aria-label="تسجيل الخروج"><svg class="ic"><use href="#i-out"/></svg></button>
-      </span>
-    </div>
-    <div class="stats">
-      <div><b id="stL">0</b><span>روابط</span></div>
-      <div><b id="stN">0</b><span>جديدة</span></div>
-      <div><b id="stT">0</b><span>إجمالي</span></div>
-    </div>
-    <div class="tabs">
-      <button type="button" class="on" data-t="links">الروابط</button>
-      <button type="button" data-t="msgs">الرسائل <span class="cnt2" id="tabN" hidden></span></button>
-    </div>
-    <section id="tLinks">
-      <div id="linksBox"></div>
-      <div class="newlink">
-        <input id="newName" maxlength="40" placeholder="اسم لينك جديد (مثلاً: الشغل)" />
-        <button type="button" class="chip" id="addBtn">+ لينك جديد</button>
+    <header class="hd">
+      <span class="medal"><svg class="ic"><use href="#i-ankh"/></svg></span>
+      <div><h1>كلمة في سرك</h1><small id="who"></small></div>
+      <span class="sp"></span>
+      <button type="button" class="theme-btn" id="refBtn" aria-label="تحديث"><svg class="ic"><use href="#i-refresh"/></svg></button>
+    </header>
+    <section class="pane" id="pm">
+      <div class="hero">
+        <b id="cnt">0</b>
+        <div><span>كلمات جديدة وصلتك</span><small id="heroTxt"></small><button type="button" class="chip" id="readAll">اعتبر الكل مقروء</button></div>
       </div>
-    </section>
-    <section id="tMsgs" hidden>
-      <div class="fl" id="flBox"></div>
-      <div class="acts">
-        <button type="button" class="chip" id="unBtn">غير المقروءة فقط</button>
-        <button type="button" class="chip" id="allReadBtn">اعتبر الكل مقروء</button>
-      </div>
+      <div class="rail" id="rail"></div>
       <div id="msgBox"></div>
     </section>
+    <section class="pane" id="pl" hidden><div id="linksBox"></div></section>
+    <section class="pane" id="pa" hidden>
+      <div class="acc">
+        <span class="medal"><svg class="ic"><use href="#i-ankh"/></svg></span>
+        <h2 id="accName"></h2><p id="accMail"></p>
+        <button type="button" class="chip" id="themeBtn2">تبديل المظهر (نهاري / ليلي)</button>
+        <button type="button" class="chip" id="outBtn"><svg class="ic"><use href="#i-out"/></svg>تسجيل الخروج</button>
+      </div>
+    </section>
+    <div class="fabw" id="fabw"><button type="button" class="fab" id="fab"><svg class="ic"><use href="#i-plus"/></svg>لينك جديد</button></div>
+    <nav class="bn" id="bn">
+      <button type="button" class="on" data-p="pm"><svg class="ic"><use href="#i-mail"/></svg>الرسائل<span class="cnt2" id="bnN" hidden></span></button>
+      <button type="button" data-p="pl"><svg class="ic"><use href="#i-link"/></svg>الروابط</button>
+      <button type="button" data-p="pa"><svg class="ic"><use href="#i-user"/></svg>حسابي</button>
+    </nav>
     <div class="toast" id="toast" role="status"></div>
   </main>
 
@@ -408,10 +438,12 @@ form.addEventListener("submit",async(e)=>{
   finally{submitBtn.disabled=false;submitText.textContent="ابعت كلمتك";}
 });
 
-const S={links:[],msgs:[],f:"all",un:false};
+const S={links:[],msgs:[],f:"all"};
+const PAL=["#2f6bc2","#d4a63a","#c4513d","#2f8f6b","#8a4fb0"];
+const col=(id)=>PAL[Math.max(0,S.links.findIndex((l)=>l.id===id))%PAL.length];
 const rtf=new Intl.RelativeTimeFormat("ar",{numeric:"auto"});
 function ago(d){const x=(new Date(d)-Date.now())/1000,a=Math.abs(x);if(a<60)return "الآن";if(a<3600)return rtf.format(Math.round(x/60),"minute");if(a<86400)return rtf.format(Math.round(x/3600),"hour");return rtf.format(Math.round(x/86400),"day");}
-function tab(t){$("tLinks").hidden=t!=="links";$("tMsgs").hidden=t!=="msgs";document.querySelectorAll(".tabs button").forEach((b)=>b.classList.toggle("on",b.dataset.t===t));}
+function tab(p){["pm","pl","pa"].forEach((x)=>{$(x).hidden=x!==p;});document.querySelectorAll("#bn button").forEach((b)=>b.classList.toggle("on",b.dataset.p===p));$("fabw").hidden=p==="pa";}
 async function load(){
   let {data:ls,error}=await sb.from("links").select("*").order("created_at");
   if(error){toast("تعذر تحميل البيانات.");return;}
@@ -422,27 +454,51 @@ async function load(){
   draw();
 }
 function draw(){
-  const un=S.msgs.filter((m)=>!m.read).length;
-  $("stL").textContent=S.links.length;$("stN").textContent=un;$("stT").textContent=S.msgs.length;
-  $("tabN").hidden=!un;$("tabN").textContent=un;
-  drawLinks();drawMsgs();
+  const un=S.msgs.filter((m)=>!m.read);
+  $("cnt").textContent=un.length;
+  $("heroTxt").textContent=un.length?"من "+new Set(un.map((m)=>m.link_id)).size+" روابط · آخرها "+ago(un[0].created_at):"مفيش رسائل جديدة";
+  $("readAll").hidden=!un.length;$("bnN").hidden=!un.length;$("bnN").textContent=un.length;
+  drawRail();drawMsgs();drawLinks();
+}
+function drawRail(){
+  const r=$("rail");r.replaceChildren();
+  const mk=(id,label,c)=>{const b=btn(label,null,()=>{S.f=id;drawRail();drawMsgs();});if(c){const i=h("i");i.style.setProperty("--c",c);b.prepend(i);}if(S.f===id)b.classList.add("on");r.appendChild(b);};
+  mk("all","الكل");S.links.forEach((l)=>mk(l.id,l.name,col(l.id)));
+}
+function drawMsgs(){
+  const box=$("msgBox");box.replaceChildren();
+  const list=S.msgs.filter((m)=>S.f==="all"||m.link_id===S.f);
+  if(!list.length){box.appendChild(h("div","empty","لسه مفيش رسائل. شارك لينكك وهتوصلك هنا."));return;}
+  const names={};S.links.forEach((l)=>{names[l.id]=l.name;});
+  list.forEach((m)=>{
+    const d=h("div","bb"+(m.read?"":" new"));d.appendChild(h("p",null,m.body));
+    const mt=h("div","meta"),tg=h("span","tag"),dot=h("i");
+    dot.style.setProperty("--c",col(m.link_id));tg.appendChild(dot);tg.appendChild(document.createTextNode(names[m.link_id]||""));
+    const r=h("span",null,ago(m.created_at)+" "),del=h("button","ib");
+    del.type="button";del.setAttribute("aria-label","مسح");del.appendChild(ico("i-trash"));
+    del.addEventListener("click",async()=>{if(!confirm("تمسح الرسالة دي؟"))return;await sb.from("messages").delete().eq("id",m.id);S.msgs=S.msgs.filter((x)=>x.id!==m.id);draw();});
+    r.title=new Date(m.created_at).toLocaleString("ar-EG");r.appendChild(del);mt.appendChild(tg);mt.appendChild(r);d.appendChild(mt);
+    d.addEventListener("click",async(e)=>{if(e.target.closest("button"))return;await sb.from("messages").update({read:!m.read}).eq("id",m.id);m.read=!m.read;draw();});
+    box.appendChild(d);
+  });
 }
 function drawLinks(){
   const box=$("linksBox");box.replaceChildren();
   S.links.forEach((l)=>{
     const url=base+"?l="+l.code,n=S.msgs.filter((m)=>m.link_id===l.id&&!m.read).length;
-    const card=h("div","link"),head=h("div","lh"),nm=h("span",null,l.name);
+    const card=h("div","lk"),head=h("div","lh"),nm=h("span",null,l.name);
+    card.style.setProperty("--c",col(l.id));
     if(!l.active)nm.appendChild(h("span","off"," · متوقف"));
     head.appendChild(nm);
-    const r=h("span","acts");
+    const r=h("span","row");
     if(n)r.appendChild(h("span","cnt2",String(n)));
     const sw=h("label","sw"),ck=document.createElement("input");
     ck.type="checkbox";ck.checked=l.active;ck.setAttribute("aria-label","تفعيل اللينك");
     ck.addEventListener("change",async()=>{await sb.from("links").update({active:ck.checked}).eq("id",l.id);toast(ck.checked?"اللينك اتفعّل":"اللينك اتوقف");load();});
     sw.appendChild(ck);sw.appendChild(document.createElement("i"));r.appendChild(sw);head.appendChild(r);
     card.appendChild(head);card.appendChild(h("div","url",url));
-    const a=h("div","acts");
-    a.appendChild(btn("الرسائل"+(n?" ("+n+")":""),null,()=>{S.f=l.id;S.un=false;drawMsgs();tab("msgs");}));
+    const a=h("div","row");
+    a.appendChild(btn("الرسائل",null,()=>{S.f=l.id;drawRail();drawMsgs();tab("pm");}));
     a.appendChild(btn("نسخ","i-copy",()=>copy(url)));
     a.appendChild(btn("مشاركة","i-share",()=>{if(navigator.share){navigator.share({title:"كلمة في سرك",text:"ابعتلي كلمة بصراحة، هويتك مش هتظهر.",url}).catch(()=>{});}else{copy(url);}}));
     a.appendChild(btn("الاسم","i-edit",async()=>{const v=prompt("اسم اللينك:",l.name);if(v&&v.trim()&&v.trim()!==l.name){await sb.from("links").update({name:v.trim().slice(0,40)}).eq("id",l.id);load();}}));
@@ -450,35 +506,15 @@ function drawLinks(){
     card.appendChild(a);box.appendChild(card);
   });
 }
-function drawMsgs(){
-  const fl=$("flBox");fl.replaceChildren();
-  const mk=(id,label)=>{const b=btn(label,null,()=>{S.f=id;drawMsgs();});if(S.f===id)b.classList.add("on");fl.appendChild(b);};
-  mk("all","الكل");S.links.forEach((l)=>mk(l.id,l.name));
-  $("unBtn").classList.toggle("on",S.un);
-  const list=S.msgs.filter((m)=>(S.f==="all"||m.link_id===S.f)&&(!S.un||!m.read));
-  const box=$("msgBox");box.replaceChildren();
-  if(!list.length){box.appendChild(h("div","empty",S.un?"مفيش رسائل جديدة.":"لسه مفيش رسائل. شارك لينكك وهتوصلك هنا."));return;}
-  const names={};S.links.forEach((l)=>{names[l.id]=l.name;});
-  list.forEach((m)=>{
-    const d=h("div","msg"+(m.read?"":" new"));d.appendChild(h("div",null,m.body));
-    const mt=h("div","mt"),meta=h("span",null);
-    meta.appendChild(h("span","tag",names[m.link_id]||""));meta.appendChild(document.createTextNode(" "+ago(m.created_at)));
-    meta.title=new Date(m.created_at).toLocaleString("ar-EG");mt.appendChild(meta);
-    const a=h("span","acts");
-    a.appendChild(btn(m.read?"غير مقروءة":"مقروءة",null,async()=>{await sb.from("messages").update({read:!m.read}).eq("id",m.id);m.read=!m.read;draw();}));
-    a.appendChild(btn("مسح","i-trash",async()=>{if(!confirm("تمسح الرسالة دي؟"))return;await sb.from("messages").delete().eq("id",m.id);S.msgs=S.msgs.filter((x)=>x.id!==m.id);draw();}));
-    mt.appendChild(a);d.appendChild(mt);box.appendChild(d);
-  });
-}
-document.querySelectorAll(".tabs button").forEach((b)=>b.addEventListener("click",()=>tab(b.dataset.t)));
-$("unBtn").addEventListener("click",()=>{S.un=!S.un;drawMsgs();});
-$("allReadBtn").addEventListener("click",async()=>{let q=sb.from("messages").update({read:true}).eq("read",false);if(S.f!=="all")q=q.eq("link_id",S.f);await q;toast("تمام");load();});
+document.querySelectorAll("#bn button").forEach((b)=>b.addEventListener("click",()=>tab(b.dataset.p)));
+$("readAll").addEventListener("click",async()=>{let q=sb.from("messages").update({read:true}).eq("read",false);if(S.f!=="all")q=q.eq("link_id",S.f);await q;toast("تمام");load();});
 $("refBtn").addEventListener("click",()=>{load();toast("اتحدّثت");});
-$("addBtn").addEventListener("click",async()=>{
-  const n=$("newName").value.trim();if(!n){toast("اكتب اسم للينك الأول.");return;}
-  const {error}=await sb.from("links").insert({name:n});
+$("themeBtn2").addEventListener("click",()=>themeToggle.click());
+$("fab").addEventListener("click",async()=>{
+  const n=(prompt("اسم اللينك الجديد (مثلاً: الشغل):")||"").trim();if(!n)return;
+  const {error}=await sb.from("links").insert({name:n.slice(0,40)});
   if(error){toast("تعذر إنشاء اللينك.");return;}
-  $("newName").value="";toast("اتعمل لينك جديد");load();
+  toast("اتعمل لينك جديد");tab("pl");load();
 });
 document.addEventListener("visibilitychange",()=>{if(!document.hidden&&dashUser)load();});
 setInterval(()=>{if(!document.hidden&&dashUser)load();},45000);
@@ -496,7 +532,7 @@ async function route(session){
   if(dashUser===session.user.id)return;
   dashUser=session.user.id;show("vDash");
   const md=session.user.user_metadata||{};
-  $("who").textContent=md.full_name||session.user.email||"حسابي";
+  const nm=md.full_name||"حسابي";$("who").textContent="أهلاً، "+nm.split(" ")[0];$("accName").textContent=nm;$("accMail").textContent=session.user.email||"";
   load();
 }
 if(!sb){
