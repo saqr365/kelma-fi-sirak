@@ -20,7 +20,7 @@ document.documentElement.setAttribute("data-theme",t);})();
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@600;700;800&family=Tajawal:wght@400;500;700&family=Reem+Kufi:wght@500;700&display=swap" rel="stylesheet" />
 <style>
-:root{box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);
+:root{box-sizing:border-box;
 --bg:#ecd9a8;--glow1:rgba(255,246,218,.85);--glow2:rgba(150,98,40,.3);--grain:rgba(120,80,30,.05);
 --card:#f9eecf;--soft:#f3e4ba;--chip:#ecd8a3;--chip-h:#e3c985;--tx:#3a2410;--mu:#8a6a42;--bd:#c9a257;--frame:#b8893a;
 --ac:#1f4e8c;--ac-s:rgba(31,78,140,.14);--title:#7a3b12;--gold:#a8741a;--line:rgba(120,80,30,.17);
@@ -35,7 +35,7 @@ document.documentElement.setAttribute("data-theme",t);})();
 --sh:0 22px 44px -18px rgba(0,0,0,.8)}
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
 html{background:var(--bg)}
-body{margin:0;min-height:100vh;font-family:"Tajawal","Cairo",sans-serif;color:var(--tx);line-height:1.6;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:20px 16px;
+body{margin:0;min-height:100vh;min-height:100dvh;font-family:"Tajawal","Cairo",sans-serif;color:var(--tx);line-height:1.6;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:calc(20px + env(safe-area-inset-top,0px)) 16px calc(20px + env(safe-area-inset-bottom,0px));
 background:radial-gradient(circle at 18% 12%,var(--glow1),transparent 46%),radial-gradient(circle at 88% 90%,var(--glow2),transparent 48%),repeating-linear-gradient(45deg,var(--grain) 0 2px,transparent 2px 7px),var(--bg);
 transition:background-color .3s,color .3s}
 .ic{width:1.15em;height:1.15em;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;flex:none;vertical-align:-.2em}
