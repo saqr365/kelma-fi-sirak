@@ -262,6 +262,7 @@ button:focus-visible{box-shadow:0 0 0 2px var(--card),0 0 0 4px var(--ac)}
       <div class="acc">
         <span class="medal"><svg class="ic"><use href="#i-ankh"/></svg></span>
         <h2 id="accName"></h2><p id="accMail"></p>
+        <button type="button" class="chip" id="pushBtn">فعّل الإشعارات</button>
         <button type="button" class="chip" id="themeBtn2">تبديل المظهر (نهاري / ليلي)</button>
         <button type="button" class="chip" id="outBtn"><svg class="ic"><use href="#i-out"/></svg>تسجيل الخروج</button>
       </div>
@@ -512,6 +513,36 @@ document.querySelectorAll("#bn button").forEach((b)=>b.addEventListener("click",
 $("readAll").addEventListener("click",async()=>{let q=sb.from("messages").update({read:true}).eq("read",false);if(S.f!=="all")q=q.eq("link_id",S.f);await q;toast("تمام");load();});
 $("refBtn").addEventListener("click",()=>{load();toast("اتحدّثت");});
 $("themeBtn2").addEventListener("click",()=>themeToggle.click());
+const VAPID=C.vapid||"";
+function u8(x){const p="=".repeat((4-x.length%4)%4),r=atob((x+p).replace(/-/g,"+").replace(/_/g,"/"));return Uint8Array.from(r,(c)=>c.charCodeAt(0));}
+async function pushState(){
+  const b=$("pushBtn");
+  if(!("serviceWorker" in navigator&&"PushManager" in window&&"Notification" in window)){b.textContent="الإشعارات مش مدعومة هنا";b.disabled=true;return;}
+  const reg=await navigator.serviceWorker.getRegistration();
+  const sub=reg?await reg.pushManager.getSubscription():null;
+  const on=!!sub&&Notification.permission==="granted";
+  b.dataset.on=on?"1":"";b.textContent=on?"إيقاف الإشعارات":"فعّل الإشعارات";
+}
+$("pushBtn").addEventListener("click",async()=>{
+  const b=$("pushBtn");
+  try{
+    const reg=await navigator.serviceWorker.ready;
+    if(b.dataset.on){
+      const sub=await reg.pushManager.getSubscription();
+      if(sub){await sb.from("push_subscriptions").delete().eq("endpoint",sub.endpoint);await sub.unsubscribe();}
+      toast("اتوقفت الإشعارات");
+    }else{
+      if(!VAPID){toast("الإشعارات لسه متضبطتش.");return;}
+      if(await Notification.requestPermission()!=="granted"){toast("لازم توافق على إذن الإشعارات.");return;}
+      const sub=(await reg.pushManager.getSubscription())||await reg.pushManager.subscribe({userVisibleOnly:true,applicationServerKey:u8(VAPID)});
+      const j=sub.toJSON();
+      const {error}=await sb.from("push_subscriptions").upsert({endpoint:j.endpoint,p256dh:j.keys.p256dh,auth:j.keys.auth},{onConflict:"endpoint"});
+      if(error){toast("تعذر حفظ الاشتراك.");return;}
+      toast("الإشعارات شغالة");
+    }
+  }catch(_){toast("تعذر ضبط الإشعارات.");}
+  pushState();
+});
 $("fab").addEventListener("click",async()=>{
   const n=(prompt("اسم اللينك الجديد (مثلاً: الشغل):")||"").trim();if(!n)return;
   const {error}=await sb.from("links").insert({name:n.slice(0,40)});
@@ -535,7 +566,7 @@ async function route(session){
   dashUser=session.user.id;show("vDash");
   const md=session.user.user_metadata||{};
   const nm=md.full_name||"حسابي";$("who").textContent="أهلاً، "+nm.split(" ")[0];$("accName").textContent=nm;$("accMail").textContent=session.user.email||"";
-  load();
+  load();pushState();
 }
 if(!sb){
   if(code){show("vSend");}
