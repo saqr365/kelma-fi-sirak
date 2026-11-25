@@ -151,9 +151,9 @@ button:focus-visible{box-shadow:0 0 0 2px var(--card),0 0 0 4px var(--ac)}
 .acc{text-align:center;padding-top:10px}.acc .medal{width:72px;height:72px;margin:0 auto 10px}.acc .medal .ic{width:34px;height:34px}
 .acc h2{margin:0;font:700 22px "Reem Kufi",Cairo,sans-serif;color:var(--title)}.acc p{margin:0 0 16px;color:var(--mu);font-size:13px;direction:ltr}
 .acc .chip{display:flex;justify-content:center;width:100%;padding:11px;margin-bottom:8px;font-size:14px}
-.fabw{position:sticky;bottom:72px;height:0;z-index:6}
+.fabw{position:sticky;bottom:12px;height:0;z-index:6}
 .fab{position:absolute;bottom:0;inset-inline-start:0;display:flex;align-items:center;gap:6px;background:var(--btn);color:var(--btn-tx);border:1px solid var(--btn-bd);border-radius:999px;padding:11px 16px;font:800 14px Cairo,sans-serif;box-shadow:0 10px 22px -8px rgba(90,55,15,.8);cursor:pointer}
-.bn{position:sticky;bottom:6px;z-index:5;margin:16px 0 0;background:var(--card);border:1.5px solid var(--frame);border-radius:14px;overflow:hidden;display:flex;padding:12px 8px 8px;box-shadow:0 8px 20px -10px rgba(60,35,10,.5)}
+.bn{flex:none;position:relative;z-index:2;background:var(--card);border-top:1.5px solid var(--frame);display:flex;padding:12px 8px calc(8px + env(safe-area-inset-bottom,0px))}
 .bn::before{content:"";position:absolute;top:0;inset-inline:0;height:4px;background:repeating-linear-gradient(90deg,#1f4e8c 0 12px,#d4a63a 12px 24px,#a3382a 24px 36px)}
 .bn button{flex:1;display:flex;flex-direction:column;align-items:center;gap:2px;background:none;border:0;font-size:11.5px;color:var(--mu);cursor:pointer;position:relative;font-family:inherit}
 .bn button.on{color:var(--ac);font-weight:700}.bn .ic{width:1.5em;height:1.5em}
@@ -280,13 +280,13 @@ body{height:100vh;height:100dvh;min-height:0;overflow:hidden}
       </div>
     </section>
     <div class="fabw" id="fabw"><button type="button" class="fab" id="fab"><svg class="ic"><use href="#i-plus"/></svg>لينك جديد</button></div>
+    <div class="toast" id="toast" role="status"></div>
+  </div>
     <nav class="bn" id="bn">
       <button type="button" class="on" data-p="pm"><svg class="ic"><use href="#i-mail"/></svg>الرسائل<span class="cnt2" id="bnN" hidden></span></button>
       <button type="button" data-p="pl"><svg class="ic"><use href="#i-link"/></svg>الروابط</button>
       <button type="button" data-p="pa"><svg class="ic"><use href="#i-user"/></svg>حسابي</button>
     </nav>
-    <div class="toast" id="toast" role="status"></div>
-  </div>
   </main>
 
   <button type="button" class="chip" id="installBtn" hidden>ثبّت التطبيق على موبايلك</button>
