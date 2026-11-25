@@ -280,7 +280,7 @@ body{height:100vh;height:100dvh;min-height:0;overflow:hidden}
         <button type="button" class="chip" id="outBtn"><svg class="ic"><use href="#i-out"/></svg>تسجيل الخروج</button>
       </div>
     </section>
-    <div class="fabw" id="fabw"><button type="button" class="fab" id="fab"><svg class="ic"><use href="#i-plus"/></svg>لينك جديد</button></div>
+    <div class="fabw" id="fabw" hidden><button type="button" class="fab" id="fab"><svg class="ic"><use href="#i-plus"/></svg>لينك جديد</button></div>
     <div class="toast" id="toast" role="status"></div>
   </div>
     <nav class="bn" id="bn">
@@ -460,7 +460,7 @@ const PAL=["#2f6bc2","#d4a63a","#c4513d","#2f8f6b","#8a4fb0"];
 const col=(id)=>PAL[Math.max(0,S.links.findIndex((l)=>l.id===id))%PAL.length];
 const rtf=new Intl.RelativeTimeFormat("ar",{numeric:"auto"});
 function ago(d){const x=(new Date(d)-Date.now())/1000,a=Math.abs(x);if(a<60)return "الآن";if(a<3600)return rtf.format(Math.round(x/60),"minute");if(a<86400)return rtf.format(Math.round(x/3600),"hour");return rtf.format(Math.round(x/86400),"day");}
-function tab(p){["pm","pl","pa"].forEach((x)=>{$(x).hidden=x!==p;});document.querySelectorAll("#bn button").forEach((b)=>b.classList.toggle("on",b.dataset.p===p));$("fabw").hidden=p==="pa";}
+function tab(p){["pm","pl","pa"].forEach((x)=>{$(x).hidden=x!==p;});document.querySelectorAll("#bn button").forEach((b)=>b.classList.toggle("on",b.dataset.p===p));$("fabw").hidden=p!=="pl";}
 async function load(){
   let {data:ls,error}=await sb.from("links").select("*").order("created_at");
   if(error){toast("تعذر تحميل البيانات.");return;}
