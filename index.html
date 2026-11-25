@@ -180,6 +180,13 @@ body{height:100vh;height:100dvh;min-height:0;overflow:hidden}
 #pm .rail{padding-inline:10px;margin-inline:-10px;-webkit-mask-image:linear-gradient(to right,transparent 0,#000 10px,#000 calc(100% - 10px),transparent 100%);mask-image:linear-gradient(to right,transparent 0,#000 10px,#000 calc(100% - 10px),transparent 100%)}
 .acc .chip{width:fit-content;min-width:210px;margin:0 auto 8px;padding:11px 22px}
 .acc .chip{min-width:min(88%,320px);padding:14px 24px;font-size:15px;margin-bottom:10px}
+::-webkit-scrollbar{width:8px;height:8px}
+::-webkit-scrollbar-track,::-webkit-scrollbar-corner{background:transparent}
+::-webkit-scrollbar-button{display:none;width:0;height:0}
+::-webkit-scrollbar-thumb{background:linear-gradient(180deg,var(--gold),var(--frame));border:2px solid transparent;background-clip:padding-box;border-radius:999px;min-height:44px;min-width:44px}
+::-webkit-scrollbar-thumb:hover,::-webkit-scrollbar-thumb:active{background:linear-gradient(180deg,var(--ac),var(--gold));background-clip:padding-box;border:2px solid transparent}
+@supports not selector(::-webkit-scrollbar){*{scrollbar-width:thin;scrollbar-color:var(--gold) transparent}}
+.rail,.fl{scrollbar-width:none}.rail::-webkit-scrollbar,.fl::-webkit-scrollbar{display:none}
 </style>
 </head>
 <body>
