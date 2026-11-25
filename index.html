@@ -49,8 +49,7 @@ transition:background-color .3s,color .3s}
 .badge{display:inline-flex;align-items:center;gap:6px;font-size:12.5px;font-weight:700;color:var(--ac);background:var(--ac-s);border:1px solid var(--bd);padding:5px 11px;border-radius:999px}
 .theme-btn{display:inline-flex;align-items:center;justify-content:center;width:38px;height:38px;padding:0;font-family:inherit;color:var(--tx);background:var(--soft);border:1px solid var(--bd);border-radius:50%;cursor:pointer;transition:background-color .2s}
 .theme-btn .ic{width:19px;height:19px}
-.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
-.theme-btn:hover{background:var(--chip-h)}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}@media (hover:hover){.theme-btn:hover{background:var(--chip-h)}}
 .header{position:relative;text-align:center;margin-bottom:18px}
 .medal{width:62px;height:62px;margin:0 auto 10px;border-radius:50%;display:flex;align-items:center;justify-content:center;color:var(--gold);background:radial-gradient(circle at 35% 30%,var(--soft),var(--chip));border:2px solid var(--frame);box-shadow:inset 0 0 0 4px var(--card),inset 0 0 0 5px var(--frame)}
 .medal .ic{width:30px;height:30px;stroke-width:2}
@@ -65,20 +64,17 @@ h1{margin:0 0 6px;font-family:"Reem Kufi","Cairo",sans-serif;font-size:33px;font
 textarea{display:block;width:100%;min-height:150px;border:0;background:repeating-linear-gradient(transparent 0 29px,var(--line) 29px 30px);color:var(--tx);font-family:inherit;font-size:15.5px;line-height:30px;padding:8px 14px 6px;resize:vertical;outline:0}
 textarea::placeholder{color:var(--mu)}
 .toolbar{display:flex;align-items:center;justify-content:space-between;gap:8px;padding:8px 12px 10px;border-top:1px dashed var(--bd);background:var(--soft)}
-.voice-btn{display:inline-flex;align-items:center;gap:6px;font-family:inherit;font-size:13px;font-weight:700;color:var(--tx);background:var(--chip);border:1px solid var(--bd);border-radius:10px;padding:6px 11px;cursor:pointer;transition:background-color .2s}
-.voice-btn:hover:not(:disabled){background:var(--chip-h)}
+.voice-btn{display:inline-flex;align-items:center;gap:6px;font-family:inherit;font-size:13px;font-weight:700;color:var(--tx);background:var(--chip);border:1px solid var(--bd);border-radius:10px;padding:6px 11px;cursor:pointer;transition:background-color .2s}@media (hover:hover){.voice-btn:hover:not(:disabled){background:var(--chip-h)}}
 .voice-btn.recording{color:var(--danger);border-color:var(--danger);animation:pulse 1.2s infinite}
 @keyframes pulse{50%{box-shadow:0 0 0 4px rgba(163,56,42,.18)}}
 .voice-btn:disabled{opacity:.55;cursor:not-allowed}
 .char-counter{font-size:12.5px;color:var(--mu);font-variant-numeric:tabular-nums}
 .char-counter.warn{color:var(--danger);font-weight:700}
 .suggestions{display:flex;flex-wrap:wrap;gap:7px;margin-top:12px}
-.chip{display:inline-flex;align-items:center;gap:5px;font-family:inherit;font-size:12.5px;color:var(--tx);background:var(--chip);border:1px solid transparent;border-radius:999px;padding:5px 12px;cursor:pointer;transition:all .2s}
-.chip:hover{background:var(--chip-h);border-color:var(--bd)}
+.chip{display:inline-flex;align-items:center;gap:5px;font-family:inherit;font-size:12.5px;color:var(--tx);background:var(--chip);border:1px solid transparent;border-radius:999px;padding:5px 12px;cursor:pointer;transition:all .2s}@media (hover:hover){.chip:hover{background:var(--chip-h);border-color:var(--bd)}}
 .chip .ic{color:var(--gold)}
 .submit-btn{display:flex;align-items:center;justify-content:center;gap:8px;width:100%;margin-top:16px;color:var(--btn-tx);background:var(--btn);border:1px solid var(--btn-bd);border-radius:10px;padding:13px 18px;font-family:"Cairo",sans-serif;font-size:15.5px;font-weight:800;cursor:pointer;text-shadow:0 1px 0 rgba(255,235,170,.45);box-shadow:0 8px 18px -10px rgba(90,55,15,.8);transition:transform .1s,filter .2s}
-.submit-btn .ic{transform:scaleX(-1)}
-.submit-btn:hover:not(:disabled){filter:brightness(1.07)}
+.submit-btn .ic{transform:scaleX(-1)}@media (hover:hover){.submit-btn:hover:not(:disabled){filter:brightness(1.07)}}
 .submit-btn:active:not(:disabled){transform:scale(.99)}
 .submit-btn:disabled{opacity:.65;cursor:not-allowed}
 .status-box{display:none;margin-top:14px;padding:11px 14px;border-radius:10px;font-size:13.5px;font-weight:500;border:1px solid transparent}
@@ -151,8 +147,9 @@ button:focus-visible{box-shadow:0 0 0 2px var(--card),0 0 0 4px var(--ac)}
 .acc{text-align:center;padding-top:10px}.acc .medal{width:72px;height:72px;margin:0 auto 10px}.acc .medal .ic{width:34px;height:34px}
 .acc h2{margin:0;font:700 22px "Reem Kufi",Cairo,sans-serif;color:var(--title)}.acc p{margin:0 0 16px;color:var(--mu);font-size:13px;direction:ltr}
 .acc .chip{display:flex;justify-content:center;width:100%;padding:11px;margin-bottom:8px;font-size:14px}
-.fabw{position:sticky;bottom:84px;height:0;z-index:6}
-.fab{position:absolute;bottom:0;inset-inline-start:0;display:flex;align-items:center;gap:6px;background:var(--btn);color:var(--btn-tx);border:1px solid var(--btn-bd);border-radius:999px;padding:11px 16px;font:800 14px Cairo,sans-serif;box-shadow:0 10px 22px -8px rgba(90,55,15,.8);cursor:pointer}
+.fabw{position:absolute;z-index:3;inset-inline-start:16px;bottom:calc(88px + env(safe-area-inset-bottom,0px));transition:opacity .2s,transform .2s}
+.fabw.gone{opacity:0;transform:translateY(12px);pointer-events:none}
+.fab{position:static;display:flex;align-items:center;gap:6px;background:var(--btn);color:var(--btn-tx);border:1px solid var(--btn-bd);border-radius:999px;padding:11px 16px;font:800 14px Cairo,sans-serif;box-shadow:0 10px 22px -8px rgba(90,55,15,.8);cursor:pointer}
 .bn{position:absolute;z-index:3;inset-inline:14px;bottom:calc(12px + env(safe-area-inset-bottom,0px));background:var(--card);border:1.5px solid var(--frame);border-radius:16px;overflow:hidden;display:flex;padding:12px 8px 8px;box-shadow:0 10px 24px -8px rgba(40,25,5,.55)}
 .bn::before{content:"";position:absolute;top:0;inset-inline:0;height:4px;background:repeating-linear-gradient(90deg,#1f4e8c 0 12px,#d4a63a 12px 24px,#a3382a 24px 36px)}
 .bn button{flex:1;display:flex;flex-direction:column;align-items:center;gap:2px;background:none;border:0;font-size:11.5px;color:var(--mu);cursor:pointer;position:relative;font-family:inherit}
@@ -166,6 +163,7 @@ body{height:100vh;height:100dvh;min-height:0;overflow:hidden}
 .footer{flex:none;margin-top:12px}
 #installBtn{flex:none}
 #vDash .sc{padding-bottom:calc(98px + env(safe-area-inset-bottom,0px))}
+.chip:active,.theme-btn:active,.voice-btn:active{background:var(--chip-h)}
 </style>
 </head>
 <body>
@@ -280,9 +278,9 @@ body{height:100vh;height:100dvh;min-height:0;overflow:hidden}
         <button type="button" class="chip" id="outBtn"><svg class="ic"><use href="#i-out"/></svg>تسجيل الخروج</button>
       </div>
     </section>
-    <div class="fabw" id="fabw" hidden><button type="button" class="fab" id="fab"><svg class="ic"><use href="#i-plus"/></svg>لينك جديد</button></div>
     <div class="toast" id="toast" role="status"></div>
   </div>
+    <div class="fabw" id="fabw" hidden><button type="button" class="fab" id="fab"><svg class="ic"><use href="#i-plus"/></svg>لينك جديد</button></div>
     <nav class="bn" id="bn">
       <button type="button" class="on" data-p="pm"><svg class="ic"><use href="#i-mail"/></svg>الرسائل<span class="cnt2" id="bnN" hidden></span></button>
       <button type="button" data-p="pl"><svg class="ic"><use href="#i-link"/></svg>الروابط</button>
@@ -527,6 +525,8 @@ document.querySelectorAll("#bn button").forEach((b)=>b.addEventListener("click",
 $("readAll").addEventListener("click",async()=>{let q=sb.from("messages").update({read:true}).eq("read",false);if(S.f!=="all")q=q.eq("link_id",S.f);await q;toast("تمام");load();});
 $("refBtn").addEventListener("click",()=>{load();toast("اتحدّثت");});
 $("themeBtn2").addEventListener("click",()=>themeToggle.click());
+{const scr=document.querySelector("#vDash .sc");let tm;
+scr.addEventListener("scroll",()=>{$("fabw").classList.add("gone");clearTimeout(tm);tm=setTimeout(()=>$("fabw").classList.remove("gone"),450);},{passive:true});}
 const VAPID=C.vapid||"";
 function u8(x){const p="=".repeat((4-x.length%4)%4),r=atob((x+p).replace(/-/g,"+").replace(/_/g,"/"));return Uint8Array.from(r,(c)=>c.charCodeAt(0));}
 async function pushState(){
