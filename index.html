@@ -171,6 +171,11 @@ body{height:100vh;height:100dvh;min-height:0;overflow:hidden}
 #pm .hero{flex:none;margin-top:12px}
 #pm .rail{flex:none}
 #msgBox{flex:1;min-height:0;overflow-y:auto;padding-bottom:calc(98px + env(safe-area-inset-bottom,0px))}
+#pl{overflow:hidden;padding:0}
+#linksBox{flex:1;min-height:0;overflow-y:auto;margin:0 -22px;padding:12px 22px 0}
+#pa{overflow-y:auto;margin:0 -22px;padding:12px 22px 0}
+#msgBox{margin:0 -22px;padding:6px 22px 0}
+#linksBox::after,#msgBox::after,#pa::after{content:"";display:block;flex:none;height:calc(92px + env(safe-area-inset-bottom,0px))}
 </style>
 </head>
 <body>
