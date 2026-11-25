@@ -187,6 +187,7 @@ body{height:100vh;height:100dvh;min-height:0;overflow:hidden}
 ::-webkit-scrollbar-thumb:hover,::-webkit-scrollbar-thumb:active{background:linear-gradient(180deg,var(--ac),var(--gold));background-clip:padding-box;border:2px solid transparent}
 @supports not selector(::-webkit-scrollbar){*{scrollbar-width:thin;scrollbar-color:var(--gold) transparent}}
 .rail,.fl{scrollbar-width:none}.rail::-webkit-scrollbar,.fl::-webkit-scrollbar{display:none}
+.medal img{width:calc(100% - 12px);height:calc(100% - 12px);border-radius:50%;object-fit:cover;display:block}
 </style>
 </head>
 <body>
@@ -294,7 +295,7 @@ body{height:100vh;height:100dvh;min-height:0;overflow:hidden}
     <section class="pane" id="pl" hidden><div id="linksBox"></div></section>
     <section class="pane" id="pa" hidden>
       <div class="acc">
-        <span class="medal"><svg class="ic"><use href="#i-ankh"/></svg></span>
+        <span class="medal" id="accMedal"><svg class="ic"><use href="#i-ankh"/></svg></span>
         <h2 id="accName"></h2><p id="accMail"></p>
         <button type="button" class="chip" id="pushBtn">فعّل الإشعارات</button>
         <button type="button" class="chip" id="themeBtn2">تبديل المظهر (نهاري / ليلي)</button>
@@ -603,6 +604,9 @@ async function route(session){
   dashUser=session.user.id;show("vDash");
   const md=session.user.user_metadata||{};
   const nm=md.full_name||"حسابي";$("who").textContent="أهلاً، "+nm.split(" ")[0];$("accName").textContent=nm;$("accMail").textContent=session.user.email||"";
+  const mm=$("accMedal");if(!mm.dataset.ankh)mm.dataset.ankh=mm.innerHTML;
+  const pic=md.avatar_url||md.picture;
+  if(pic){const im=document.createElement("img");im.alt="";im.referrerPolicy="no-referrer";im.addEventListener("error",()=>{mm.innerHTML=mm.dataset.ankh;});im.src=pic;mm.replaceChildren(im);}else{mm.innerHTML=mm.dataset.ankh;}
   load();pushState();
 }
 if(!sb){
