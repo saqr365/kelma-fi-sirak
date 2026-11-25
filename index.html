@@ -175,7 +175,9 @@ body{height:100vh;height:100dvh;min-height:0;overflow:hidden}
 #linksBox{flex:1;min-height:0;overflow-y:auto;margin:0 -14px;padding:12px 14px 0}
 #pa{overflow-y:auto;margin:0 -14px;padding:12px 14px 0}
 #msgBox{margin:0 -14px;padding:6px 14px 0}
-#linksBox::after,#msgBox::after,#pa::after{content:"";display:block;flex:none;height:calc(92px + env(safe-area-inset-bottom,0px))}
+#linksBox::after,#msgBox::after,#pa::after{content:"";display:block;flex:none;height:calc(112px + env(safe-area-inset-bottom,0px))}
+#msgBox,#linksBox,#pa{-webkit-mask-image:linear-gradient(to bottom,transparent 0,#000 16px,#000 calc(100% - 100px - env(safe-area-inset-bottom,0px)),transparent calc(100% - 74px - env(safe-area-inset-bottom,0px))),linear-gradient(to right,transparent 0,#000 10px,#000 calc(100% - 10px),transparent 100%);-webkit-mask-composite:source-in;mask-image:linear-gradient(to bottom,transparent 0,#000 16px,#000 calc(100% - 100px - env(safe-area-inset-bottom,0px)),transparent calc(100% - 74px - env(safe-area-inset-bottom,0px))),linear-gradient(to right,transparent 0,#000 10px,#000 calc(100% - 10px),transparent 100%);mask-composite:intersect}
+#pm .rail{padding-inline:10px;margin-inline:-10px;-webkit-mask-image:linear-gradient(to right,transparent 0,#000 10px,#000 calc(100% - 10px),transparent 100%);mask-image:linear-gradient(to right,transparent 0,#000 10px,#000 calc(100% - 10px),transparent 100%)}
 </style>
 </head>
 <body>
