@@ -164,6 +164,13 @@ body{height:100vh;height:100dvh;min-height:0;overflow:hidden}
 #installBtn{flex:none}
 #vDash .sc{padding-bottom:calc(98px + env(safe-area-inset-bottom,0px))}
 .chip:active,.theme-btn:active,.voice-btn:active{background:var(--chip-h)}
+#vDash .hd{flex:none;position:relative;z-index:2;margin:0;padding:28px 22px 10px;border-bottom:1px solid var(--line)}
+#vDash .sc{padding:0 22px;overflow:hidden;display:flex;flex-direction:column}
+#vDash .pane{flex:1;min-height:0;display:flex;flex-direction:column;padding:0}
+#pl,#pa{overflow-y:auto;padding-top:12px;padding-bottom:calc(98px + env(safe-area-inset-bottom,0px))}
+#pm .hero{flex:none;margin-top:12px}
+#pm .rail{flex:none}
+#msgBox{flex:1;min-height:0;overflow-y:auto;padding-bottom:calc(98px + env(safe-area-inset-bottom,0px))}
 </style>
 </head>
 <body>
@@ -253,13 +260,13 @@ body{height:100vh;height:100dvh;min-height:0;overflow:hidden}
 
   <main class="card view" id="vDash" hidden>
     <div class="band"></div>
-    <div class="sc">
     <header class="hd">
       <span class="medal"><svg class="ic"><use href="#i-ankh"/></svg></span>
       <div><h1>كلمة في سرك</h1><small id="who"></small></div>
       <span class="sp"></span>
       <button type="button" class="theme-btn" id="refBtn" aria-label="تحديث"><svg class="ic"><use href="#i-refresh"/></svg></button>
     </header>
+    <div class="sc">
     <section class="pane" id="pm">
       <div class="hero">
         <b id="cnt">0</b>
@@ -525,8 +532,8 @@ document.querySelectorAll("#bn button").forEach((b)=>b.addEventListener("click",
 $("readAll").addEventListener("click",async()=>{let q=sb.from("messages").update({read:true}).eq("read",false);if(S.f!=="all")q=q.eq("link_id",S.f);await q;toast("تمام");load();});
 $("refBtn").addEventListener("click",()=>{load();toast("اتحدّثت");});
 $("themeBtn2").addEventListener("click",()=>themeToggle.click());
-{const scr=document.querySelector("#vDash .sc");let tm;
-scr.addEventListener("scroll",()=>{$("fabw").classList.add("gone");clearTimeout(tm);tm=setTimeout(()=>$("fabw").classList.remove("gone"),450);},{passive:true});}
+{const scr=document.getElementById("vDash");let tm;
+scr.addEventListener("scroll",()=>{$("fabw").classList.add("gone");clearTimeout(tm);tm=setTimeout(()=>$("fabw").classList.remove("gone"),450);},{passive:true,capture:true});}
 const VAPID=C.vapid||"";
 function u8(x){const p="=".repeat((4-x.length%4)%4),r=atob((x+p).replace(/-/g,"+").replace(/_/g,"/"));return Uint8Array.from(r,(c)=>c.charCodeAt(0));}
 async function pushState(){
