@@ -158,6 +158,13 @@ button:focus-visible{box-shadow:0 0 0 2px var(--card),0 0 0 4px var(--ac)}
 .bn button{flex:1;display:flex;flex-direction:column;align-items:center;gap:2px;background:none;border:0;font-size:11.5px;color:var(--mu);cursor:pointer;position:relative;font-family:inherit}
 .bn button.on{color:var(--ac);font-weight:700}.bn .ic{width:1.5em;height:1.5em}
 .bn .cnt2{position:absolute;top:0;inset-inline-start:calc(50% + 6px);margin:0}
+html{height:100%}
+body{height:100vh;height:100dvh;min-height:0;overflow:hidden}
+.wrap{flex:1;min-height:0;display:flex;flex-direction:column}
+.card.view{flex:1;min-height:0;display:flex;flex-direction:column;padding:0;overflow:hidden}
+.sc{position:relative;z-index:1;flex:1;min-height:0;overflow-y:auto;padding:30px 22px 24px;overscroll-behavior:contain;-webkit-overflow-scrolling:touch}
+.footer{flex:none;margin-top:12px}
+#installBtn{flex:none}
 </style>
 </head>
 <body>
@@ -187,6 +194,7 @@ button:focus-visible{box-shadow:0 0 0 2px var(--card),0 0 0 4px var(--ac)}
 <div class="wrap">
   <main class="card view" id="vSend" hidden>
     <div class="band"></div>
+    <div class="sc">
     <div class="top">
       <span class="badge"><svg class="ic"><use href="#i-lock"/></svg>مجهول بالكامل</span>
       <button type="button" class="theme-btn" id="themeToggle" aria-label="تبديل المظهر">
@@ -227,10 +235,12 @@ button:focus-visible{box-shadow:0 0 0 2px var(--card),0 0 0 4px var(--ac)}
 
     <div id="statusBox" class="status-box" role="status" aria-live="polite"></div>
     <a class="mk" href="./">عايز لينك خاص بيك؟ اعمله من هنا</a>
+  </div>
   </main>
 
   <main class="card view" id="vHome" hidden>
     <div class="band"></div>
+    <div class="sc">
     <div class="header">
       <div class="medal"><svg class="ic"><use href="#i-ankh"/></svg></div>
       <h1>كلمة في سرك</h1>
@@ -239,10 +249,12 @@ button:focus-visible{box-shadow:0 0 0 2px var(--card),0 0 0 4px var(--ac)}
     </div>
     <button type="button" class="submit-btn" id="gBtn"><svg class="ic"><use href="#i-lock"/></svg>الدخول بحساب جوجل</button>
     <div class="status-box" id="homeStatus" role="status"></div>
+  </div>
   </main>
 
   <main class="card view" id="vDash" hidden>
     <div class="band"></div>
+    <div class="sc">
     <header class="hd">
       <span class="medal"><svg class="ic"><use href="#i-ankh"/></svg></span>
       <div><h1>كلمة في سرك</h1><small id="who"></small></div>
@@ -274,6 +286,7 @@ button:focus-visible{box-shadow:0 0 0 2px var(--card),0 0 0 4px var(--ac)}
       <button type="button" data-p="pa"><svg class="ic"><use href="#i-user"/></svg>حسابي</button>
     </nav>
     <div class="toast" id="toast" role="status"></div>
+  </div>
   </main>
 
   <button type="button" class="chip" id="installBtn" hidden>ثبّت التطبيق على موبايلك</button>
