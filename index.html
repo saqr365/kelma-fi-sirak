@@ -224,6 +224,18 @@ html,body{overscroll-behavior-y:contain}
 .seg{display:flex;background:var(--soft);border:1px solid var(--bd);border-radius:999px;padding:3px}
 .seg button{flex:1;font:700 13.5px Cairo,sans-serif;color:var(--mu);background:transparent;border:0;border-radius:999px;padding:8px;cursor:pointer}
 .seg button.on{background:var(--ac);color:var(--onac)}
+#vSend .hd{flex:none;position:relative;z-index:2;margin:0;padding:28px 22px 10px}
+#vSend .sc{margin:0 8px 8px;padding:12px 14px 0;overflow-y:auto;overscroll-behavior:contain;-webkit-mask-image:linear-gradient(to bottom,transparent 0,#000 16px,#000 calc(100% - 100px - env(safe-area-inset-bottom,0px)),transparent calc(100% - 74px - env(safe-area-inset-bottom,0px))),linear-gradient(to right,transparent 0,#000 10px,#000 calc(100% - 10px),transparent 100%);-webkit-mask-composite:source-in;mask-image:linear-gradient(to bottom,transparent 0,#000 16px,#000 calc(100% - 100px - env(safe-area-inset-bottom,0px)),transparent calc(100% - 74px - env(safe-area-inset-bottom,0px))),linear-gradient(to right,transparent 0,#000 10px,#000 calc(100% - 10px),transparent 100%);mask-composite:intersect}
+#vSend .sc::after{content:"";display:block;height:calc(112px + env(safe-area-inset-bottom,0px))}
+#vSend .hero{margin:0 0 12px;padding:12px 14px}
+#vSend .hero .medal{width:44px;height:44px;margin:0;flex:none}
+#vSend .hero .medal .ic{width:22px;height:22px}
+#vSend .hero span{display:block;font-weight:700}
+#vSend .hero small{display:block;color:var(--mu);font-size:12.5px}
+#vSend .rail{margin-top:12px;padding-inline:10px;margin-inline:-10px;-webkit-mask-image:linear-gradient(to right,transparent 0,#000 10px,#000 calc(100% - 10px),transparent 100%);mask-image:linear-gradient(to right,transparent 0,#000 10px,#000 calc(100% - 10px),transparent 100%)}
+.fbar{position:absolute;z-index:3;inset-inline:14px;bottom:calc(12px + env(safe-area-inset-bottom,0px));background:var(--card);border:1.5px solid var(--frame);border-radius:16px;overflow:hidden;padding:15px 10px 10px;box-shadow:0 10px 24px -8px rgba(40,25,5,.55)}
+.fbar::before{content:"";position:absolute;top:0;inset-inline:0;height:4px;background:repeating-linear-gradient(90deg,#1f4e8c 0 12px,#d4a63a 12px 24px,#a3382a 24px 36px)}
+.fbar .submit-btn{margin-top:0}
 </style>
 </head>
 <body>
@@ -253,48 +265,36 @@ html,body{overscroll-behavior-y:contain}
 <div class="wrap">
   <main class="card view" id="vSend" hidden>
     <div class="band"></div>
+    <header class="hd">
+      <span class="medal"><svg class="ic"><use href="#i-ankh"/></svg></span>
+      <div><h1>كلمة في سرك</h1><small>رسالة مجهولة</small></div>
+      <span class="sp"></span>
+      <button type="button" class="theme-btn" id="themeToggle" aria-label="تبديل المظهر"><svg class="ic" id="themeIcon"><use href="#i-moon"/></svg><span id="themeLabel" class="sr">ليلي</span></button>
+    </header>
     <div class="sc">
-    <div class="top">
-      <span class="badge"><svg class="ic"><use href="#i-lock"/></svg>مجهول بالكامل</span>
-      <button type="button" class="theme-btn" id="themeToggle" aria-label="تبديل المظهر">
-        <svg class="ic" id="themeIcon"><use href="#i-moon"/></svg>
-        <span id="themeLabel" class="sr">ليلي</span>
-      </button>
-    </div>
-
-    <div class="header">
-      <div class="medal"><svg class="ic"><use href="#i-ankh"/></svg></div>
-      <h1>كلمة في سرك</h1>
-      <p class="sub">اكتب اللي في قلبك بصراحة، هويتك مش هتظهر لأي حد.</p>
-      <div class="divider"><svg class="ic"><use href="#i-star"/></svg></div>
-    </div>
-
-    <form id="secretForm">
-      <input type="checkbox" name="botcheck" style="display:none;" tabindex="-1" autocomplete="off" />
-
-      <div class="composer">
-        <textarea id="messageInput" name="message" maxlength="1000" placeholder="اكتب رسالتك هنا..." required></textarea>
-        <div class="toolbar">
-          <button type="button" class="voice-btn" id="voiceBtn">
-            <svg class="ic" id="voiceIcon"><use href="#i-mic"/></svg>
-            <span id="voiceText">اكتب بصوتك</span>
-          </button>
-          <span class="char-counter" id="charCounter">0 / 1000</span>
+      <section class="hero">
+        <span class="medal"><svg class="ic"><use href="#i-lock"/></svg></span>
+        <div><span>اكتب اللي في قلبك بصراحة</span><small>هويتك مش هتظهر لأي حد، ومفيش حساب ولا تسجيل.</small></div>
+      </section>
+      <form id="secretForm">
+        <input type="checkbox" name="botcheck" style="display:none;" tabindex="-1" autocomplete="off" />
+        <div class="composer">
+          <textarea id="messageInput" name="message" maxlength="1000" placeholder="اكتب رسالتك هنا..." required></textarea>
+          <div class="toolbar">
+            <button type="button" class="voice-btn" id="voiceBtn"><svg class="ic" id="voiceIcon"><use href="#i-mic"/></svg><span id="voiceText">اكتب بصوتك</span></button>
+            <span class="char-counter" id="charCounter">0 / 1000</span>
+          </div>
         </div>
-      </div>
-
-      <div class="suggestions" aria-label="اقتراحات سريعة">
-        <button type="button" class="chip" data-text="عندي كلمة حابب أقولهالك بصراحة: "><svg class="ic"><use href="#i-feather"/></svg>كلمة صراحة</button>
-        <button type="button" class="chip" data-text="في حاجة عجباني فيك جدًا: "><svg class="ic"><use href="#i-heart"/></svg>حاجة عجباني</button>
-        <button type="button" class="chip" data-text="نصيحة من القلب ليك: "><svg class="ic"><use href="#i-star"/></svg>نصيحة</button>
-      </div>
-
-      <button type="submit" class="submit-btn" id="submitBtn"><svg class="ic"><use href="#i-send"/></svg><span id="submitText">ابعت كلمتك</span></button>
-    </form>
-
-    <div id="statusBox" class="status-box" role="status" aria-live="polite"></div>
-    <a class="mk" href="./">عايز لينك خاص بيك؟ اعمله من هنا</a>
-  </div>
+        <div class="rail" aria-label="اقتراحات سريعة">
+          <button type="button" class="chip" data-text="عندي كلمة حابب أقولهالك بصراحة: "><svg class="ic"><use href="#i-feather"/></svg>كلمة صراحة</button>
+          <button type="button" class="chip" data-text="في حاجة عجباني فيك جدًا: "><svg class="ic"><use href="#i-heart"/></svg>حاجة عجباني</button>
+          <button type="button" class="chip" data-text="نصيحة من القلب ليك: "><svg class="ic"><use href="#i-star"/></svg>نصيحة</button>
+        </div>
+      </form>
+      <div id="statusBox" class="status-box" role="status" aria-live="polite"></div>
+      <a class="mk" href="./">عايز لينك خاص بيك؟ اعمله من هنا</a>
+    </div>
+    <div class="fbar"><button type="submit" form="secretForm" class="submit-btn" id="submitBtn"><svg class="ic"><use href="#i-send"/></svg><span id="submitText">ابعت كلمتك</span></button></div>
   </main>
 
   <main class="card view" id="vHome" hidden>
