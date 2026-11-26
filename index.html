@@ -201,6 +201,14 @@ body.dash .footer,body.dash #installBtn{display:none}
 .ib.ren{padding:4px 6px;color:var(--mu)}
 .lk .row.ac2{justify-content:space-between;align-items:flex-end;margin-top:2px}
 .lk .del{width:34px;height:34px;color:var(--danger)}
+.mdl{position:fixed;inset:0;z-index:50;display:flex;align-items:center;justify-content:center;padding:20px;background:rgba(10,8,4,.55);-webkit-backdrop-filter:blur(3px);backdrop-filter:blur(3px)}
+.mbox{width:100%;max-width:360px;background:var(--card);border:2px solid var(--frame);border-radius:14px;padding:22px 18px 16px;box-shadow:0 20px 50px -10px rgba(0,0,0,.6);outline:1px solid var(--frame);outline-offset:-7px;text-align:center}
+.mbox h3{margin:0 0 6px;font:700 20px "Reem Kufi",Cairo,sans-serif;color:var(--title)}
+.mbox p{margin:0 0 14px;color:var(--mu);font-size:14px}
+.mrow{display:flex;flex-direction:column;gap:8px}
+.mrow .chip{justify-content:center;padding:11px;font-size:14.5px}
+.mrow .chip.pri{background:var(--ac);color:var(--onac)}
+.mrow .chip.danger{background:var(--danger);color:#fff}
 </style>
 </head>
 <body>
@@ -332,6 +340,7 @@ body.dash .footer,body.dash #installBtn{display:none}
   <footer class="footer">© 2026 كلمة في سرك · جميع الحقوق محفوظة<br><a href="privacy.html">الخصوصية</a> · <a href="terms.html">الشروط</a></footer>
 </div>
 
+<div class="mdl" id="mdl" role="dialog" aria-modal="true" hidden><div class="mbox"><h3 id="mT"></h3><p id="mP"></p><div class="mrow" id="mR"></div></div></div>
 <script>
 const htmlEl=document.documentElement;
 const themeToggle=document.getElementById("themeToggle");
@@ -474,6 +483,9 @@ function h(tag,cls,txt){const e=document.createElement(tag);if(cls)e.className=c
 function ico(id){const s=document.createElementNS("http://www.w3.org/2000/svg","svg");s.setAttribute("class","ic");s.innerHTML='<use href="#'+id+'"/>';return s;}
 function btn(label,icon,fn){const b=h("button","chip");b.type="button";if(icon)b.appendChild(ico(icon));b.appendChild(document.createTextNode(label));b.addEventListener("click",fn);return b;}
 function ibtn(label,icon,fn,cls){const b=h("button",cls);b.type="button";b.setAttribute("aria-label",label);b.title=label;b.appendChild(ico(icon));b.addEventListener("click",fn);return b;}
+function ask(title,text,opts){return new Promise((res)=>{const m=$("mdl");m._res=res;$("mT").textContent=title;$("mP").textContent=text;const r=$("mR");r.replaceChildren();
+  opts.forEach((o)=>{const b=h("button","chip"+(o.cls?" "+o.cls:""),o.label);b.type="button";b.addEventListener("click",()=>{m.hidden=true;m._res=null;res(o.v);});r.appendChild(b);});m.hidden=false;});}
+function closeAsk(){const m=$("mdl");if(m._res){const r=m._res;m._res=null;m.hidden=true;r(null);}}
 function toast(m){const t=$("toast");t.textContent=m;t.classList.add("show");clearTimeout(t._h);t._h=setTimeout(()=>t.classList.remove("show"),2200);}
 async function copy(t){try{await navigator.clipboard.writeText(t);toast("اتنسخ اللينك");}catch(_){prompt("انسخ اللينك:",t);}}
 
@@ -552,7 +564,13 @@ function drawLinks(){
     if(n)r.appendChild(h("span","cnt2",String(n)));
     const sw=h("label","sw"),ck=document.createElement("input");
     ck.type="checkbox";ck.checked=l.active;ck.setAttribute("aria-label","تفعيل اللينك");
-    ck.addEventListener("change",async()=>{await sb.from("links").update({active:ck.checked}).eq("id",l.id);toast(ck.checked?"اللينك اتفعّل":"اللينك اتوقف");load();});
+    ck.addEventListener("change",async()=>{
+      if(ck.checked){await sb.from("links").update({active:true}).eq("id",l.id);toast("اللينك اتفعّل");load();return;}
+      ck.checked=true;
+      const c=await ask("إيقاف اللينك «"+l.name+"»","تحب توقف اللينك مؤقتًا وتقدر تفعّله بعدين، ولا تحذفه نهائيًا مع كل رسايله؟",[{label:"إلغاء التنشيط",v:"off",cls:"pri"},{label:"حذف اللينك",v:"del",cls:"danger"},{label:"إلغاء",v:null}]);
+      if(c==="off"){await sb.from("links").update({active:false}).eq("id",l.id);toast("اللينك اتوقف");load();}
+      else if(c==="del"){if(!confirm("متأكد؟ هيتمسح اللينك وكل رسايله نهائيًا."))return;await sb.from("links").delete().eq("id",l.id);toast("اتمسح");load();}
+    });
     sw.appendChild(ck);sw.appendChild(document.createElement("i"));r.appendChild(sw);head.appendChild(r);
     card.appendChild(head);card.appendChild(h("div","url",url));
     const a=h("div","row ac2"),g=h("span","row");
@@ -560,7 +578,6 @@ function drawLinks(){
     g.appendChild(btn("نسخ","i-copy",()=>copy(url)));
     g.appendChild(btn("مشاركة","i-share",()=>{if(navigator.share){navigator.share({title:"كلمة في سرك",text:"ابعتلي كلمة بصراحة، هويتك مش هتظهر.",url}).catch(()=>{});}else{copy(url);}}));
     a.appendChild(g);
-    a.appendChild(ibtn("مسح اللينك","i-trash",async()=>{if(!confirm("تمسح اللينك ده وكل رسايله؟"))return;await sb.from("links").delete().eq("id",l.id);toast("اتمسح");load();},"theme-btn del"));
     card.appendChild(a);box.appendChild(card);
   });
 }
@@ -568,6 +585,8 @@ document.querySelectorAll("#bn button").forEach((b)=>b.addEventListener("click",
 $("readAll").addEventListener("click",async()=>{let q=sb.from("messages").update({read:true}).eq("read",false);if(S.f!=="all")q=q.eq("link_id",S.f);await q;toast("تمام");load();});
 $("refBtn").addEventListener("click",()=>{load();toast("اتحدّثت");});
 $("themeBtn2").addEventListener("click",()=>themeToggle.click());
+$("mdl").addEventListener("click",(e)=>{if(e.target.id==="mdl")closeAsk();});
+document.addEventListener("keydown",(e)=>{if(e.key==="Escape")closeAsk();});
 {const scr=document.getElementById("vDash");let tm;
 scr.addEventListener("scroll",()=>{$("fabw").classList.add("gone");clearTimeout(tm);tm=setTimeout(()=>$("fabw").classList.remove("gone"),450);},{passive:true,capture:true});}
 const VAPID=C.vapid||"";
