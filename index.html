@@ -344,7 +344,6 @@ html,body{overscroll-behavior-y:contain}
           <div class="seg" id="ntfSeg"><button type="button" data-v="push">التطبيق</button><button type="button" data-v="email">الإيميل</button><button type="button" data-v="both">الاتنين</button></div>
           <p class="hint" id="ntfHint"></p></div>
         <button type="button" class="chip" id="pushBtn">فعّل الإشعارات</button>
-        <button type="button" class="chip" id="themeBtn2">تبديل المظهر (نهاري / ليلي)</button>
         <button type="button" class="chip" id="outBtn"><svg class="ic"><use href="#i-out"/></svg>تسجيل الخروج</button>
         <p class="acc-foot">© 2026 كلمة في سرك · جميع الحقوق محفوظة<br><a href="privacy.html">الخصوصية</a> · <a href="terms.html">الشروط</a></p>
       </div>
@@ -615,7 +614,6 @@ function drawLinks(){
 document.querySelectorAll("#bn button").forEach((b)=>b.addEventListener("click",()=>tab(b.dataset.p)));
 $("readAll").addEventListener("click",async()=>{let q=sb.from("messages").update({read:true}).eq("read",false);if(S.f!=="all")q=q.eq("link_id",S.f);await q;toast("تمام");load();});
 $("dashTheme").addEventListener("click",()=>themeToggle.click());
-$("themeBtn2").addEventListener("click",()=>themeToggle.click());
 let nMode="push";
 function drawN(){document.querySelectorAll("#ntfSeg button").forEach((b)=>b.classList.toggle("on",b.dataset.v===nMode));
   const mail=$("accMail").textContent;
