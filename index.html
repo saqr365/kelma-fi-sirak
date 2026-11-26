@@ -194,6 +194,9 @@ body{height:100vh;height:100dvh;min-height:0;overflow:hidden}
 .flip.on .face:first-child{transform:rotateY(-180deg)}
 .flip.on .f2{transform:rotateY(0deg)}
 @media (prefers-reduced-motion:reduce){.flip .face{transition:none}}
+body.dash .footer,body.dash #installBtn{display:none}
+.acc .hint{font-size:12.5px;color:var(--mu);margin:0 0 10px;direction:rtl}
+.acc-foot{margin-top:18px;text-align:center;font-size:12.5px;color:var(--mu)}.acc-foot a{color:var(--ac)}
 </style>
 </head>
 <body>
@@ -303,9 +306,12 @@ body{height:100vh;height:100dvh;min-height:0;overflow:hidden}
       <div class="acc">
         <span class="medal" id="accMedal"><svg class="ic"><use href="#i-ankh"/></svg></span>
         <h2 id="accName"></h2><p id="accMail"></p>
+        <button type="button" class="chip inst" id="installBtn2" hidden>ثبّت التطبيق على موبايلك</button>
+        <p class="hint" id="iosHint" hidden>لتثبيت التطبيق على الآيفون: افتح الموقع في Safari، اضغط زر المشاركة ثم «إضافة إلى الشاشة الرئيسية».</p>
         <button type="button" class="chip" id="pushBtn">فعّل الإشعارات</button>
         <button type="button" class="chip" id="themeBtn2">تبديل المظهر (نهاري / ليلي)</button>
         <button type="button" class="chip" id="outBtn"><svg class="ic"><use href="#i-out"/></svg>تسجيل الخروج</button>
+        <p class="acc-foot">© 2026 كلمة في سرك · جميع الحقوق محفوظة<br><a href="privacy.html">الخصوصية</a> · <a href="terms.html">الشروط</a></p>
       </div>
     </section>
     <div class="toast" id="toast" role="status"></div>
@@ -318,7 +324,7 @@ body{height:100vh;height:100dvh;min-height:0;overflow:hidden}
     </nav>
   </main>
 
-  <button type="button" class="chip" id="installBtn" hidden>ثبّت التطبيق على موبايلك</button>
+  <button type="button" class="chip inst" id="installBtn" hidden>ثبّت التطبيق على موبايلك</button>
   <footer class="footer">© 2026 كلمة في سرك · جميع الحقوق محفوظة<br><a href="privacy.html">الخصوصية</a> · <a href="terms.html">الشروط</a></footer>
 </div>
 
@@ -458,7 +464,7 @@ const $=(id)=>document.getElementById(id);
 const code=new URLSearchParams(location.search).get("l");
 const base=location.origin+location.pathname;
 let dashUser=null;
-function show(id){document.querySelectorAll(".view").forEach((e)=>{e.hidden=e.id!==id;});}
+function show(id){document.querySelectorAll(".view").forEach((e)=>{e.hidden=e.id!==id;});document.body.classList.toggle("dash",id==="vDash");}
 function st(el,type,msg){el.textContent=msg;el.className="status-box show "+type;}
 function h(tag,cls,txt){const e=document.createElement(tag);if(cls)e.className=cls;if(txt!=null)e.textContent=txt;return e;}
 function ico(id){const s=document.createElementNS("http://www.w3.org/2000/svg","svg");s.setAttribute("class","ic");s.innerHTML='<use href="#'+id+'"/>';return s;}
@@ -625,9 +631,11 @@ if(!sb){
   sb.auth.onAuthStateChange((ev,s)=>{if(ev==="SIGNED_IN"||ev==="SIGNED_OUT")route(s);});
 }
 
-let dp=null;
-window.addEventListener("beforeinstallprompt",(e)=>{e.preventDefault();dp=e;$("installBtn").hidden=false;});
-$("installBtn").addEventListener("click",async()=>{if(!dp)return;dp.prompt();await dp.userChoice;dp=null;$("installBtn").hidden=true;});
+let dp=null;const inst=document.querySelectorAll(".inst");
+window.addEventListener("beforeinstallprompt",(e)=>{e.preventDefault();dp=e;inst.forEach((b)=>{b.hidden=false;});$("iosHint").hidden=true;});
+inst.forEach((b)=>b.addEventListener("click",async()=>{if(!dp)return;dp.prompt();await dp.userChoice;dp=null;inst.forEach((x)=>{x.hidden=true;});}));
+window.addEventListener("appinstalled",()=>inst.forEach((x)=>{x.hidden=true;}));
+$("iosHint").hidden=!(/iphone|ipad|ipod/i.test(navigator.userAgent)&&!navigator.standalone);
 if("serviceWorker" in navigator)navigator.serviceWorker.register("sw.js").catch(()=>{});
 })();
 </script>
