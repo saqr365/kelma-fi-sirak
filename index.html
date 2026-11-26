@@ -197,6 +197,10 @@ body{height:100vh;height:100dvh;min-height:0;overflow:hidden}
 body.dash .footer,body.dash #installBtn{display:none}
 .acc .hint{font-size:12.5px;color:var(--mu);margin:0 0 10px;direction:rtl}
 .acc-foot{margin-top:18px;text-align:center;font-size:12.5px;color:var(--mu)}.acc-foot a{color:var(--ac)}
+.lh .nw{display:flex;align-items:center;gap:2px;min-width:0}
+.ib.ren{padding:4px 6px;color:var(--mu)}
+.lk .row.ac2{justify-content:space-between;align-items:flex-end;margin-top:2px}
+.lk .del{width:34px;height:34px;color:var(--danger)}
 </style>
 </head>
 <body>
@@ -469,6 +473,7 @@ function st(el,type,msg){el.textContent=msg;el.className="status-box show "+type
 function h(tag,cls,txt){const e=document.createElement(tag);if(cls)e.className=cls;if(txt!=null)e.textContent=txt;return e;}
 function ico(id){const s=document.createElementNS("http://www.w3.org/2000/svg","svg");s.setAttribute("class","ic");s.innerHTML='<use href="#'+id+'"/>';return s;}
 function btn(label,icon,fn){const b=h("button","chip");b.type="button";if(icon)b.appendChild(ico(icon));b.appendChild(document.createTextNode(label));b.addEventListener("click",fn);return b;}
+function ibtn(label,icon,fn,cls){const b=h("button",cls);b.type="button";b.setAttribute("aria-label",label);b.title=label;b.appendChild(ico(icon));b.addEventListener("click",fn);return b;}
 function toast(m){const t=$("toast");t.textContent=m;t.classList.add("show");clearTimeout(t._h);t._h=setTimeout(()=>t.classList.remove("show"),2200);}
 async function copy(t){try{await navigator.clipboard.writeText(t);toast("اتنسخ اللينك");}catch(_){prompt("انسخ اللينك:",t);}}
 
@@ -540,7 +545,9 @@ function drawLinks(){
     const card=h("div","lk"),head=h("div","lh"),nm=h("span",null,l.name);
     card.style.setProperty("--c",col(l.id));
     if(!l.active)nm.appendChild(h("span","off"," · متوقف"));
-    head.appendChild(nm);
+    const nw=h("span","nw");nw.appendChild(nm);
+    nw.appendChild(ibtn("تعديل الاسم","i-edit",async()=>{const v=prompt("اسم اللينك:",l.name);if(v&&v.trim()&&v.trim()!==l.name){await sb.from("links").update({name:v.trim().slice(0,40)}).eq("id",l.id);load();}},"ib ren"));
+    head.appendChild(nw);
     const r=h("span","row");
     if(n)r.appendChild(h("span","cnt2",String(n)));
     const sw=h("label","sw"),ck=document.createElement("input");
@@ -548,12 +555,12 @@ function drawLinks(){
     ck.addEventListener("change",async()=>{await sb.from("links").update({active:ck.checked}).eq("id",l.id);toast(ck.checked?"اللينك اتفعّل":"اللينك اتوقف");load();});
     sw.appendChild(ck);sw.appendChild(document.createElement("i"));r.appendChild(sw);head.appendChild(r);
     card.appendChild(head);card.appendChild(h("div","url",url));
-    const a=h("div","row");
-    a.appendChild(btn("الرسائل",null,()=>{S.f=l.id;drawRail();drawMsgs();tab("pm");}));
-    a.appendChild(btn("نسخ","i-copy",()=>copy(url)));
-    a.appendChild(btn("مشاركة","i-share",()=>{if(navigator.share){navigator.share({title:"كلمة في سرك",text:"ابعتلي كلمة بصراحة، هويتك مش هتظهر.",url}).catch(()=>{});}else{copy(url);}}));
-    a.appendChild(btn("الاسم","i-edit",async()=>{const v=prompt("اسم اللينك:",l.name);if(v&&v.trim()&&v.trim()!==l.name){await sb.from("links").update({name:v.trim().slice(0,40)}).eq("id",l.id);load();}}));
-    a.appendChild(btn("مسح","i-trash",async()=>{if(!confirm("تمسح اللينك ده وكل رسايله؟"))return;await sb.from("links").delete().eq("id",l.id);toast("اتمسح");load();}));
+    const a=h("div","row ac2"),g=h("span","row");
+    g.appendChild(btn("الرسائل",null,()=>{S.f=l.id;drawRail();drawMsgs();tab("pm");}));
+    g.appendChild(btn("نسخ","i-copy",()=>copy(url)));
+    g.appendChild(btn("مشاركة","i-share",()=>{if(navigator.share){navigator.share({title:"كلمة في سرك",text:"ابعتلي كلمة بصراحة، هويتك مش هتظهر.",url}).catch(()=>{});}else{copy(url);}}));
+    a.appendChild(g);
+    a.appendChild(ibtn("مسح اللينك","i-trash",async()=>{if(!confirm("تمسح اللينك ده وكل رسايله؟"))return;await sb.from("links").delete().eq("id",l.id);toast("اتمسح");load();},"theme-btn del"));
     card.appendChild(a);box.appendChild(card);
   });
 }
