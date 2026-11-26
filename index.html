@@ -236,6 +236,10 @@ html,body{overscroll-behavior-y:contain}
 .fbar{position:absolute;z-index:3;inset-inline:14px;bottom:calc(12px + env(safe-area-inset-bottom,0px));background:var(--card);border:1.5px solid var(--frame);border-radius:16px;overflow:hidden;padding:15px 10px 10px;box-shadow:0 10px 24px -8px rgba(40,25,5,.55)}
 .fbar::before{content:"";position:absolute;top:0;inset-inline:0;height:4px;background:repeating-linear-gradient(90deg,#1f4e8c 0 12px,#d4a63a 12px 24px,#a3382a 24px 36px)}
 .fbar .submit-btn{margin-top:0}
+.fbar{background:none;border:0;box-shadow:none;overflow:visible;padding:0}
+.fbar::before{display:none}
+.fbar .submit-btn{box-shadow:0 12px 24px -8px rgba(90,55,15,.85)}
+#vSend .sc::after{height:calc(92px + env(safe-area-inset-bottom,0px))}
 </style>
 </head>
 <body>
