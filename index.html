@@ -218,6 +218,12 @@ html,body{overscroll-behavior-y:contain}
 .ptr.spin .ic{animation:ptrspin .9s linear infinite}
 @keyframes ptrspin{to{transform:rotate(360deg)}}
 @media (prefers-reduced-motion:reduce){.ptr.spin .ic{animation:none}}
+.ntf{width:min(88%,320px);margin:0 auto 12px;text-align:center}
+.ntf-t{font-weight:700;margin-bottom:6px}
+.ntf .hint{margin:8px 0 0}
+.seg{display:flex;background:var(--soft);border:1px solid var(--bd);border-radius:999px;padding:3px}
+.seg button{flex:1;font:700 13.5px Cairo,sans-serif;color:var(--mu);background:transparent;border:0;border-radius:999px;padding:8px;cursor:pointer}
+.seg button.on{background:var(--ac);color:var(--onac)}
 </style>
 </head>
 <body>
@@ -329,6 +335,9 @@ html,body{overscroll-behavior-y:contain}
         <h2 id="accName"></h2><p id="accMail"></p>
         <button type="button" class="chip inst" id="installBtn2" hidden>ثبّت التطبيق على موبايلك</button>
         <p class="hint" id="iosHint" hidden>لتثبيت التطبيق على الآيفون: افتح الموقع في Safari، اضغط زر المشاركة ثم «إضافة إلى الشاشة الرئيسية».</p>
+        <div class="ntf"><div class="ntf-t">طريقة استقبال الإشعارات</div>
+          <div class="seg" id="ntfSeg"><button type="button" data-v="push">التطبيق</button><button type="button" data-v="email">الإيميل</button><button type="button" data-v="both">الاتنين</button></div>
+          <p class="hint" id="ntfHint"></p></div>
         <button type="button" class="chip" id="pushBtn">فعّل الإشعارات</button>
         <button type="button" class="chip" id="themeBtn2">تبديل المظهر (نهاري / ليلي)</button>
         <button type="button" class="chip" id="outBtn"><svg class="ic"><use href="#i-out"/></svg>تسجيل الخروج</button>
@@ -601,6 +610,16 @@ document.querySelectorAll("#bn button").forEach((b)=>b.addEventListener("click",
 $("readAll").addEventListener("click",async()=>{let q=sb.from("messages").update({read:true}).eq("read",false);if(S.f!=="all")q=q.eq("link_id",S.f);await q;toast("تمام");load();});
 $("refBtn").addEventListener("click",()=>{load();toast("اتحدّثت");});
 $("themeBtn2").addEventListener("click",()=>themeToggle.click());
+let nMode="push";
+function drawN(){document.querySelectorAll("#ntfSeg button").forEach((b)=>b.classList.toggle("on",b.dataset.v===nMode));
+  const mail=$("accMail").textContent;
+  $("ntfHint").textContent=nMode==="push"?"هتوصلك إشعارات على التطبيق (فعّل زر الإشعارات اللي تحت).":nMode==="email"?"هتوصلك رسالة على "+mail+" مع كل كلمة جديدة.":"هتوصلك إشعارات على التطبيق ورسالة على "+mail+".";}
+async function loadN(){const {data}=await sb.from("user_prefs").select("notify").maybeSingle();nMode=(data&&data.notify)||"push";drawN();}
+document.querySelectorAll("#ntfSeg button").forEach((b)=>b.addEventListener("click",async()=>{
+  const v=b.dataset.v;if(v===nMode)return;const prev=nMode;nMode=v;drawN();
+  const {error}=await sb.from("user_prefs").upsert({notify:v},{onConflict:"owner"});
+  if(error){nMode=prev;drawN();toast("تعذر حفظ الاختيار.");return;}
+  toast("اتحفظ الاختيار");}));
 $("mdl").addEventListener("click",(e)=>{if(e.target.id==="mdl")closeAsk();});
 document.addEventListener("keydown",(e)=>{if(e.key==="Escape")closeAsk();});
 $("mI").addEventListener("keydown",(e)=>{if(e.key==="Enter"){const b=$("mR").querySelector(".pri");if(b)b.click();}});
@@ -676,7 +695,7 @@ async function route(session){
   if(pic){const im=document.createElement("img");im.alt="";im.referrerPolicy="no-referrer";im.addEventListener("error",()=>{mm.innerHTML=mm.dataset.ankh;});im.src=pic;mm.replaceChildren(im);}else{mm.innerHTML=mm.dataset.ankh;}
   const fl=$("hdMedal"),f2=$("hdFace2");clearInterval(fl._t);fl.classList.remove("on");f2.replaceChildren();f2.hidden=true;
   if(pic&&!(window.matchMedia&&matchMedia("(prefers-reduced-motion: reduce)").matches)){const i2=document.createElement("img");i2.alt="";i2.referrerPolicy="no-referrer";i2.addEventListener("load",()=>{f2.hidden=false;fl._t=setInterval(()=>fl.classList.toggle("on"),4500);});i2.addEventListener("error",()=>clearInterval(fl._t));i2.src=pic;f2.appendChild(i2);}
-  load();pushState();
+  load();pushState();loadN();
 }
 if(!sb){
   if(code){show("vSend");}
