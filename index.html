@@ -188,6 +188,12 @@ body{height:100vh;height:100dvh;min-height:0;overflow:hidden}
 @supports not selector(::-webkit-scrollbar){*{scrollbar-width:thin;scrollbar-color:var(--gold) transparent}}
 .rail,.fl{scrollbar-width:none}.rail::-webkit-scrollbar,.fl::-webkit-scrollbar{display:none}
 .medal img{width:calc(100% - 12px);height:calc(100% - 12px);border-radius:50%;object-fit:cover;display:block}
+.flip{position:relative;width:44px;height:44px;flex:none;perspective:500px}
+.flip .face{position:absolute;inset:0;backface-visibility:hidden;-webkit-backface-visibility:hidden;transition:transform .9s cubic-bezier(.45,.05,.25,1)}
+.flip .f2{transform:rotateY(180deg)}
+.flip.on .face:first-child{transform:rotateY(-180deg)}
+.flip.on .f2{transform:rotateY(0deg)}
+@media (prefers-reduced-motion:reduce){.flip .face{transition:none}}
 </style>
 </head>
 <body>
@@ -278,7 +284,7 @@ body{height:100vh;height:100dvh;min-height:0;overflow:hidden}
   <main class="card view" id="vDash" hidden>
     <div class="band"></div>
     <header class="hd">
-      <span class="medal"><svg class="ic"><use href="#i-ankh"/></svg></span>
+      <span class="flip" id="hdMedal"><span class="face medal"><svg class="ic"><use href="#i-ankh"/></svg></span><span class="face medal f2" id="hdFace2" hidden></span></span>
       <div><h1>كلمة في سرك</h1><small id="who"></small></div>
       <span class="sp"></span>
       <button type="button" class="theme-btn" id="refBtn" aria-label="تحديث"><svg class="ic"><use href="#i-refresh"/></svg></button>
@@ -607,6 +613,8 @@ async function route(session){
   const mm=$("accMedal");if(!mm.dataset.ankh)mm.dataset.ankh=mm.innerHTML;
   const pic=md.avatar_url||md.picture;
   if(pic){const im=document.createElement("img");im.alt="";im.referrerPolicy="no-referrer";im.addEventListener("error",()=>{mm.innerHTML=mm.dataset.ankh;});im.src=pic;mm.replaceChildren(im);}else{mm.innerHTML=mm.dataset.ankh;}
+  const fl=$("hdMedal"),f2=$("hdFace2");clearInterval(fl._t);fl.classList.remove("on");f2.replaceChildren();f2.hidden=true;
+  if(pic&&!(window.matchMedia&&matchMedia("(prefers-reduced-motion: reduce)").matches)){const i2=document.createElement("img");i2.alt="";i2.referrerPolicy="no-referrer";i2.addEventListener("load",()=>{f2.hidden=false;fl._t=setInterval(()=>fl.classList.toggle("on"),4500);});i2.addEventListener("error",()=>clearInterval(fl._t));i2.src=pic;f2.appendChild(i2);}
   load();pushState();
 }
 if(!sb){
