@@ -211,6 +211,13 @@ body.dash .footer,body.dash #installBtn{display:none}
 .mrow .chip.danger{background:var(--danger);color:#fff}
 .minp{width:100%;margin:0 0 12px;font-family:inherit;font-size:15px;color:var(--tx);background:var(--soft);border:1.5px solid var(--bd);border-radius:10px;padding:10px 12px;outline:none;text-align:start}
 .minp:focus{border-color:var(--ac);box-shadow:0 0 0 3px var(--ac-s)}
+html,body{overscroll-behavior-y:contain}
+.ptr{position:fixed;top:calc(8px + env(safe-area-inset-top,0px));left:50%;z-index:60;width:42px;height:42px;margin-left:-21px;border-radius:50%;display:flex;align-items:center;justify-content:center;color:var(--gold);background:radial-gradient(circle at 35% 30%,var(--soft),var(--chip));border:2px solid var(--frame);box-shadow:0 8px 20px -6px rgba(0,0,0,.5);opacity:0;transform:translateY(-70px);pointer-events:none;will-change:transform}
+.ptr .ic{width:22px;height:22px}
+.ptr.snap{transition:transform .28s ease,opacity .28s ease}
+.ptr.spin .ic{animation:ptrspin .9s linear infinite}
+@keyframes ptrspin{to{transform:rotate(360deg)}}
+@media (prefers-reduced-motion:reduce){.ptr.spin .ic{animation:none}}
 </style>
 </head>
 <body>
@@ -342,6 +349,7 @@ body.dash .footer,body.dash #installBtn{display:none}
   <footer class="footer">© 2026 كلمة في سرك · جميع الحقوق محفوظة<br><a href="privacy.html">الخصوصية</a> · <a href="terms.html">الشروط</a></footer>
 </div>
 
+<div class="ptr" id="ptr" aria-hidden="true"><svg class="ic"><use href="#i-ankh"/></svg></div>
 <div class="mdl" id="mdl" role="dialog" aria-modal="true" hidden><div class="mbox"><h3 id="mT"></h3><p id="mP"></p><input class="minp" id="mI" autocomplete="off" hidden /><div class="mrow" id="mR"></div></div></div>
 <script>
 const htmlEl=document.documentElement;
@@ -596,6 +604,18 @@ $("themeBtn2").addEventListener("click",()=>themeToggle.click());
 $("mdl").addEventListener("click",(e)=>{if(e.target.id==="mdl")closeAsk();});
 document.addEventListener("keydown",(e)=>{if(e.key==="Escape")closeAsk();});
 $("mI").addEventListener("keydown",(e)=>{if(e.key==="Enter"){const b=$("mR").querySelector(".pri");if(b)b.click();}});
+{const ptr=$("ptr"),ic=ptr.querySelector(".ic");let y0=0,x0=0,pull=0,on=false,sc=null,busy=false;
+const cur=()=>{if(!$("vDash").hidden){if(!$("pm").hidden)return $("msgBox");if(!$("pl").hidden)return $("linksBox");return $("pa");}return document.querySelector(".view:not([hidden]) .sc");};
+document.addEventListener("touchstart",(e)=>{if(busy||e.touches.length!==1||!$("mdl").hidden||e.target.closest("textarea,input")||!e.target.closest(".view"))return;const s=cur();if(!s||s.scrollTop>0)return;sc=s;y0=e.touches[0].clientY;x0=e.touches[0].clientX;pull=0;on=false;},{passive:true});
+document.addEventListener("touchmove",(e)=>{if(!sc||busy)return;const t=e.touches[0],dy=t.clientY-y0,dx=t.clientX-x0;
+  if(!on){if(dy<-6||Math.abs(dx)>Math.abs(dy)+10){sc=null;return;}if(dy<=6||sc.scrollTop>0)return;on=true;ptr.classList.remove("snap");}
+  e.preventDefault();pull=Math.min(dy*0.5,110);ptr.style.opacity=Math.min(1,pull/45);ptr.style.transform="translateY("+(pull-60)+"px)";ic.style.transform="rotate("+(pull*4)+"deg)";},{passive:false});
+const end=async()=>{if(!sc)return;sc=null;if(!on)return;on=false;ptr.classList.add("snap");
+  if(pull>=70){busy=true;ptr.style.transform="translateY(14px)";ptr.style.opacity="1";ic.style.transform="";ptr.classList.add("spin");
+    if(!$("vDash").hidden){await Promise.all([load(),new Promise((r)=>setTimeout(r,700))]);}else{location.reload();return;}
+    ptr.classList.remove("spin");busy=false;}
+  ptr.style.opacity="0";ptr.style.transform="translateY(-70px)";pull=0;};
+document.addEventListener("touchend",end,{passive:true});document.addEventListener("touchcancel",end,{passive:true});}
 {const scr=document.getElementById("vDash");let tm;
 scr.addEventListener("scroll",()=>{$("fabw").classList.add("gone");clearTimeout(tm);tm=setTimeout(()=>$("fabw").classList.remove("gone"),450);},{passive:true,capture:true});}
 const VAPID=C.vapid||"";
