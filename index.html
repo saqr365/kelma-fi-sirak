@@ -322,7 +322,7 @@ html,body{overscroll-behavior-y:contain}
       <span class="flip" id="hdMedal"><span class="face medal"><svg class="ic"><use href="#i-ankh"/></svg></span><span class="face medal f2" id="hdFace2" hidden></span></span>
       <div><h1>كلمة في سرك</h1><small id="who"></small></div>
       <span class="sp"></span>
-      <button type="button" class="theme-btn" id="refBtn" aria-label="تحديث"><svg class="ic"><use href="#i-refresh"/></svg></button>
+      <button type="button" class="theme-btn" id="dashTheme" aria-label="تبديل المظهر"><svg class="ic" id="dashThemeIcon"><use href="#i-moon"/></svg></button>
     </header>
     <div class="sc">
     <section class="pane" id="pm">
@@ -385,6 +385,7 @@ function setIcon(el,id){el.innerHTML='<use href="#'+id+'"/>';}
 
 function applyTheme(theme){
   htmlEl.setAttribute("data-theme",theme);
+  const di=document.getElementById("dashThemeIcon");if(di)setIcon(di,theme==="dark"?"i-sun":"i-moon");
   if(theme==="dark"){setIcon(themeIcon,"i-sun");themeLabel.textContent="نهاري";}
   else{setIcon(themeIcon,"i-moon");themeLabel.textContent="ليلي";}
 }
@@ -613,7 +614,7 @@ function drawLinks(){
 }
 document.querySelectorAll("#bn button").forEach((b)=>b.addEventListener("click",()=>tab(b.dataset.p)));
 $("readAll").addEventListener("click",async()=>{let q=sb.from("messages").update({read:true}).eq("read",false);if(S.f!=="all")q=q.eq("link_id",S.f);await q;toast("تمام");load();});
-$("refBtn").addEventListener("click",()=>{load();toast("اتحدّثت");});
+$("dashTheme").addEventListener("click",()=>themeToggle.click());
 $("themeBtn2").addEventListener("click",()=>themeToggle.click());
 let nMode="push";
 function drawN(){document.querySelectorAll("#ntfSeg button").forEach((b)=>b.classList.toggle("on",b.dataset.v===nMode));
