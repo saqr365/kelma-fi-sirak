@@ -5,6 +5,7 @@ import { SMTPClient } from "https://deno.land/x/denomailer@1.6.0/mod.ts";
 const sb = createClient(Deno.env.get("SUPABASE_URL")!, Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!);
 webpush.setVapidDetails("mailto:kelmafisirak.eg@gmail.com", Deno.env.get("VAPID_PUBLIC")!, Deno.env.get("VAPID_PRIVATE")!);
 const SITE = "https://saqr365.github.io/kelma-fi-sirak/";
+const enc = (t: string) => `=?UTF-8?B?${btoa(String.fromCharCode(...new TextEncoder().encode(t)))}?=`;
 const esc = (t: string) => t.replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c] as string));
 
 async function sendEmail(to: string, linkName: string) {
@@ -13,9 +14,9 @@ async function sendEmail(to: string, linkName: string) {
   const client = new SMTPClient({ connection: { hostname: "smtp.gmail.com", port: 465, tls: true, auth: { username: user, password: pass } } });
   try {
     await client.send({
-      from: `كلمة في سرك <${user}>`,
+      from: `${enc("كلمة في سرك")} <${user}>`,
       to,
-      subject: "وصلتك كلمة جديدة",
+      subject: enc("وصلتك كلمة جديدة"),
       content: `وصلتك كلمة جديدة على لينك «${linkName}».\nافتح الموقع لتقرأها: ${SITE}`,
       html: `<div dir="rtl" style="font-family:Tahoma,Arial,sans-serif;line-height:1.8"><h2>كلمة في سرك</h2><p>وصلتك كلمة جديدة على لينك «${esc(linkName)}».</p><p><a href="${SITE}">افتح الموقع لتقرأها</a></p></div>`,
     });
