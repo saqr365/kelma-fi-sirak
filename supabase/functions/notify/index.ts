@@ -5,21 +5,26 @@ import { SMTPClient } from "https://deno.land/x/denomailer@1.6.0/mod.ts";
 const sb = createClient(Deno.env.get("SUPABASE_URL")!, Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!);
 webpush.setVapidDetails("mailto:kelmafisirak.eg@gmail.com", Deno.env.get("VAPID_PUBLIC")!, Deno.env.get("VAPID_PRIVATE")!);
 const SITE = "https://saqr365.github.io/kelma-fi-sirak/";
-const enc = (t: string) => `=?UTF-8?B?${btoa(String.fromCharCode(...new TextEncoder().encode(t)))}?=`;
 const esc = (t: string) => t.replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c] as string));
 
 async function sendEmail(to: string, linkName: string) {
   const user = Deno.env.get("SMTP_USER"), pass = Deno.env.get("SMTP_PASS");
   if (!user || !pass) { console.error("missing SMTP secrets"); return; }
+  const text = `وصلتك كلمة جديدة على لينك «${linkName}».\nافتح الموقع لتقرأها: ${SITE}`;
+  const html = `<div dir="rtl" style="font-family:Tahoma,Arial,sans-serif;line-height:1.8"><h2>كلمة في سرك</h2><p>وصلتك كلمة جديدة على لينك «${esc(linkName)}».</p><p><a href="${SITE}">افتح الموقع لتقرأها</a></p></div>`;
+  try {
+    const nodemailer = (await import("npm:nodemailer@6.9.16")).default;
+    const tr = nodemailer.createTransport({ host: "smtp.gmail.com", port: 465, secure: true, auth: { user, pass } });
+    await tr.sendMail({ from: { name: "كلمة في سرك", address: user }, to, subject: "وصلتك كلمة جديدة", text, html });
+    console.log("sent via nodemailer");
+    return;
+  } catch (e) {
+    console.error("nodemailer failed", String(e));
+  }
   const client = new SMTPClient({ connection: { hostname: "smtp.gmail.com", port: 465, tls: true, auth: { username: user, password: pass } } });
   try {
-    await client.send({
-      from: `${enc("كلمة في سرك")} <${user}>`,
-      to,
-      subject: enc("وصلتك كلمة جديدة"),
-      content: `وصلتك كلمة جديدة على لينك «${linkName}».\nافتح الموقع لتقرأها: ${SITE}`,
-      html: `<div dir="rtl" style="font-family:Tahoma,Arial,sans-serif;line-height:1.8"><h2>كلمة في سرك</h2><p>وصلتك كلمة جديدة على لينك «${esc(linkName)}».</p><p><a href="${SITE}">افتح الموقع لتقرأها</a></p></div>`,
-    });
+    await client.send({ from: `Kelma Fi Sirak <${user}>`, to, subject: "New word - Kelma Fi Sirak", content: text, html });
+    console.log("sent via denomailer");
   } finally {
     await client.close();
   }
