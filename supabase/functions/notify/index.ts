@@ -9,7 +9,7 @@ const esc = (t: string) => t.replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&l
 
 async function sendEmail(to: string, linkName: string) {
   const user = Deno.env.get("SMTP_USER"), pass = Deno.env.get("SMTP_PASS");
-  if (!user || !pass) return;
+  if (!user || !pass) { console.error("missing SMTP secrets"); return; }
   const client = new SMTPClient({ connection: { hostname: "smtp.gmail.com", port: 465, tls: true, auth: { username: user, password: pass } } });
   try {
     await client.send({
@@ -37,6 +37,7 @@ Deno.serve(async (req) => {
   const { data: pref } = await sb.from("user_prefs").select("notify").eq("owner", link.owner).maybeSingle();
   const mode = pref?.notify ?? "push";
   const tasks: Promise<unknown>[] = [];
+  console.log("notify mode", mode);
 
   if (mode === "push" || mode === "both") {
     const { data: subs } = await sb.from("push_subscriptions").select("id,endpoint,p256dh,auth").eq("owner", link.owner);
@@ -54,10 +55,14 @@ Deno.serve(async (req) => {
   }
   if (mode === "email" || mode === "both") {
     tasks.push((async () => {
-      const { data } = await sb.auth.admin.getUserById(link.owner);
+      const { data, error } = await sb.auth.admin.getUserById(link.owner);
       const email = data?.user?.email;
-      if (email) await sendEmail(email, link.name);
-    })().catch((e) => console.error("email failed", e)));
+      console.log("email lookup", { found: !!email, error: error?.message });
+      if (email) {
+        await sendEmail(email, link.name);
+        console.log("email sent");
+      }
+    })().catch((e) => console.error("email failed", String(e))));
   }
   await Promise.all(tasks);
   return new Response("ok");
